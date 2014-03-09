@@ -1,10 +1,10 @@
 	   - Welcome to the TMA macro assembler assembler project -
 
-Project maintainer is Sven Klose (pixel@copei.de)
+Project maintainer is Sven Klose (pixel@hugbox.org)
 
 Sources :
 ---------
-Homepage:	http://www.hugbox.org/software/
+Homepage:	http://www.hugbox.org/
 FTP:		ftp://ftp.gwdg.de/pub/msdos/tma
 
 Files and directories:
@@ -17,7 +17,6 @@ MAINTAIN	People that worked on this project and where to contanct them
 INSTALL.BAT	Will start making your first TMA executable to
 BIN\		The TMA executable also build by SRC\make.bat.
 BUGS\		Known and fixed bugs in TMA.
-DOC\		Documentation on TMA
 EXAMPLES\	Example programs you can compile with TMA
 KEYS\		Fingerprints for TMA's code generator.
 LIB\		Library of modules you may include into your programs.
