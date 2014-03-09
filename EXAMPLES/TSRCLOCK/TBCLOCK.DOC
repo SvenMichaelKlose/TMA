@@ -1,0 +1,36 @@
+ TetraByte TSR clock - (c)1997 S.Klose
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴�
+
+ 1. Hello !
+
+ Thank you for downloading this software, even if it just took a split
+ second. Now as it resides on your disk, it still isn't yours. Feel free to
+ copy the original archive without modifying it in any way nor charging
+ anything for it except for transportation.
+ If you use this program regularly, you'll have to send me a mail
+ (just once ! just once !). Have nice dreams, if you don't. ;-)
+
+ 2. Get and keep it running
+
+ Start TBCLOCK.COM as you find it and *WHOPP!* the time is displayed in the
+ upper right corner of the screen. This works nicely as long as you're in
+ text mode. If you start anything with graphics, it will disappear for the
+ while. Don't hesitate to put it into your AUTOEXEC.BAT.
+ Caldera OpenDOS users should take care of not starting the program
+ *before* the task manager - this'll halt your system.
+ Just get it run afterwards.
+
+ There is no chance to uninstall the program until reset. But if this,
+ or a graphic mode support is appreciated, please let me know.
+
+ 3. Disclaimer
+
+ I am convinced that this program is 100% stable and doesn't modify any
+ data except the bytes in video RAM, but for all those lawyers out there,
+ somebody told me, I would need to write a disclaimer.
+ Well, I don't care. This piece of work runs under *ANY* M$-DO$ compatible
+ operating system, so, in case your system causes a world wide internet crash
+ while running this software, don't blame me. Shit happens.
+
+ 4. Email: sven@devcon.net
+

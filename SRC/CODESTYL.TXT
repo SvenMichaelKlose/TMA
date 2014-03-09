@@ -1,0 +1,27 @@
+Coding style guidelines
+
+	Source
+
+	Please remember that writing assembly code is a lot easier than
+	understanding one. Don't make other one's eyes burn with continuous
+	streams of code filling several pages, leave blank lines after single
+        operation blocks with single comments, split large functions into
+	smaller ones.
+
+	Comments
+
+	Please leave off comments that won't help much. Single instructions
+	usually don't need one. Let identifiers do what they're supposed to
+	do.
+	It is good to comment registers or stack contents that were used long
+	ago, but there shouldn't be need for this.
+
+	Segment access
+
+	TMA is going to become a hybrid code program that will process in
+	any processor mode. Writes to the code segment will cause a
+	segmentation fault in protected mode. See GLOBAL\GLOBAL.INC for
+        the special segment macros. Use them, even if they're dummies. No one
+        wants to browse the whole source if you didn't, you're code will
+	crash after a garbage collection or a mode switch.
+

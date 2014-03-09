@@ -1,0 +1,181 @@
+You can always get the latest version of TMA on: http://www.hugbox.org
+
+Changes on TMA:
+
+ Release						Archive name
+-------------------------------------------------------------------------------
+ Meta		Very fresh, new parts aren't finished.  (tm<date>.zip)
+ Alpha		Fresh and unstable release.		(ta<date>.zip)
+ Beta		Release that's probably buggy.          (tb<date>.zip)
+ Stable 	Stable + bugfixed			(ts<date>.zip)
+-------------------------------------------------------------------------------
+
+ +--------------   (M)eta, (A)lpha, (B)eta, (S)table release
+ | +------------   Sequence #
+ | |	  +-----   Date of release
+ | |	  |
+-------------------------------------------------------------------------------
+ A#66-090122
+-------------------------------------------------------------------------------
+
+ - Added compiled binaries.
+ - Added compiled C64 tape files.
+ - Added Tetrabyte MOD player. Run under UN*X/DOSBOX with internal speaker.
+
+-------------------------------------------------------------------------------
+ A#65-980729 snapshot
+-------------------------------------------------------------------------------
+
+ - > caused a crash within macros - fixed.
+
+ - Error line insertion was buggy when processing multiple files - fixed.
+ - Error line insertion took place when working with the internal IDE.
+ - Compilation time is displayed more precise.
+ - Macro handling is rewritten and hopefully bugfixed ;^)
+ - Code is more modularized and easier to understand.
+ - TMA didn't return an error code if an error occured.
+   (Except DOS errors) - fixed.
+
+-------------------------------------------------------------------------------
+ A#65-980717
+-------------------------------------------------------------------------------
+
+ - Modules of the program must now register an address of a function that
+   frees the sources. _exit is a new function that terminates the program
+   properly with an error code. (GLOBAL\REGISTER.INC)
+ - Error messages are inserted to the source file and removed automatically
+   if you leave them in. PLEASE TAKE CARE THAT YOU HAVE YOUR BACKUPS HANDY!!!
+
+-------------------------------------------------------------------------------
+ A#64-980712
+-------------------------------------------------------------------------------
+
+ - TMA crashed when assembling itself for German users. Jetzt klappt's wieder!
+   (fixed).
+ - Documentation: English section partially in HTML format.
+ - Macro texts are stored in an own segment 'seg_macrodat'
+ - Parser: Now it's only checked once per line if something could be
+   loaded.
+
+-------------------------------------------------------------------------------
+ A#63-980705
+-------------------------------------------------------------------------------
+
+  - INCLUDE accepts filenames without quotes.
+  - The parser for effective addresses didn't jump over spaces within
+    braces: [LABEL + <REG>] caused an error message - fixed.
+  - Unimplemented assembler commands (DIRECT.INC) are happily ignored.
+    INCBIN crashed - fixed.
+  - Dollars in symbol names weren't permitted - fixed.
+  - Sometimes tSeekNode returned a block that is too small, even if there were
+    terabytes of free RAM - fixed.
+  - TMA IDE used to push error messages up when trying to scroll beyond
+    the source - fixed.
+
+-------------------------------------------------------------------------------
+ A#62-07/01/1998
+-------------------------------------------------------------------------------
+
+  - Memory handling is bugfixed. There's also a new module for trees
+    available, and you may assemble a file from the internal editor where
+    error message insertion works on single files.
+
+-------------------------------------------------------------------------------
+ A#61-06/28/1998
+-------------------------------------------------------------------------------
+
+  - Memory handling now works with garbage collection. (GLOBAL\NEW.INC)
+
+-------------------------------------------------------------------------------
+ M#60-24/06/1998
+-------------------------------------------------------------------------------
+
+  - A new memory handling is now included. It seems to work, but memory will be
+    freed only if TMA terminates. (see SRC\GLOBAL\NEW.INC)
+  - structure size and effective address override tables are using the new
+    memory handling instead of grabbing the bytes from the common data
+    segment. (seg_strucsizes;seg_eaoverrides)
+  - Well, ermh, ...the code size was wrong in the assembly stats - fixed.
+
+-------------------------------------------------------------------------------
+ A#59-17/06/1998
+-------------------------------------------------------------------------------
+
+ Thanks to Anthony Williams, some bugs could be eliminated:
+ - XCHG anyreg,AX didn't work due to a wrong digit in it's generation info
+   in OPCODESC.INC. XCHG AX,anyreg worked, however - fixed.
+ - TEST didn't work because the opcode doesn't include a direction bit - fixed.
+
+-------------------------------------------------------------------------------
+ A#58-13/06/1998
+-------------------------------------------------------------------------------
+
+ - Henrik Gehrke's Dynamic IDE v0.20 is included.
+
+-------------------------------------------------------------------------------
+ A#57-12/06/1998
+-------------------------------------------------------------------------------
+
+ - There've been rumours about different copyright notices in the
+   German manual, which is NOT the real reference to TMA.
+   If you're German lies bitte LIESMICH.TXT in DOC\GER.
+
+-------------------------------------------------------------------------------
+ A#56-07/06/1998
+-------------------------------------------------------------------------------
+
+ - Protected mode extender for DIDE was missing. Now it's in the same
+   directory. (Thanks to Anthony Williams)
+ - Generic IDE shows the functions it really provides.
+
+-------------------------------------------------------------------------------
+ A#55-21/05/1998
+-------------------------------------------------------------------------------
+
+ - The documentation is translated into English.
+ - Henrik Gehrke's Dynamic IDE (beta) has been added for more comfort.
+   We'll hopefully enjoy his full version very soon.
+
+-------------------------------------------------------------------------------
+ A#54-18/05/1998
+-------------------------------------------------------------------------------
+
+ - Genesis 6502 crossassembler is a new example source.
+
+-------------------------------------------------------------------------------
+ A#53-16/05/1998
+-------------------------------------------------------------------------------
+
+ Since 12/12/1998:
+ - Macro parameters can be named.
+ - Data segments are recognized by its class 'data'.
+ - XMS handler skips copying empty pages.
+ - IDE: DEL key cleared the last character in the file - fixed.
+
+ Until now:
+ - Restructuring and cleaning source for you.
+ - Code was reduced.
+ - Comments were translated into English. (except the IDE)
+
+-------------------------------------------------------------------------------
+ A#52-06/11/1997
+-------------------------------------------------------------------------------
+
+ - You can use the standard code and data segment with .MODEL TINY.
+ - Muliple user-defined segments are possible in .MODEL SMALL
+   EXE relocation is done.
+ - All XMS is freed on program termination. :*)
+ - More sources
+
+-------------------------------------------------------------------------------
+ A#51-13/07/1997
+-------------------------------------------------------------------------------
+
+ - SEGMENT instruction
+ - MODEL TINY and SMALL
+ - EXE file can be generated. (Command line option '-e')
+ - Bug-fixed Multiple-Pass-Algorithm
+ - EVEN allows parameter (for example 'EVEN 8')
+
+-------------------------------------------------------------------------------
+

@@ -1,0 +1,230 @@
+        - Tetrabyte Horror Crypt and Convert Utility v1.0 - MAILWARE -
+                          (c)1996 Sven Klose/Tetrabyte
+
+                                - User's manual -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Copyright                          ³                                 1-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ This program is copyright by Sven Michael Klose and Tetrabyte.
+ No changes at the archive's contents nor the archive itself may be made
+ without a clear and written permission of the author.
+ The program is mailware and may be copied und used freely but only
+ if you send me, the author, an email.
+ That will help us to see what we could do better and if we should continue
+ programming our products.
+
+ Send email to :
+
+        sven@devcon.net
+
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Disclaimer of warranty             ³                                 1-2
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ You use this program at your own risk. The programmer is not responsible
+ for any damage this program may cause. If there's any error occuring
+ please let me know.
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ What is Tetrabyte                  ³                                 2-0
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ TetraByte (I still hate this captial 'B' !) is a group of programmers,
+ musicians, graphics artists and other computer freaks by passion.
+ You can get in touch with us at the (electronic) adresses shown at the
+ end of this document.
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Registering                        ³                                 3-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ There is none.
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Copyright                          ³                                 4-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ The usage of HCC is very easy ! Just type in the program name, the option
+ to let it know what it is supposed to do and of course the file it should
+ handle. An easy expample next:
+
+ HCC -c textfile.txt
+
+ This will force HCC to create a new file called testfile.CAP with the
+ contents of the old file converted into captial letters.
+ Of course you can define your own destination file. This'll look like this:
+
+ HCC -c textfile.txt newfile.txt
+
+ Just type HC to get the options available displayed on screen.
+
+ Interested users will also find the sourcecode of HCC.
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Encryption & conversion utilities  ³                                 5-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ From now on there'll be just short descriptions of how to do various things
+ with Tetrabyte's Horror crypt and conversion utility :
+
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Freaky codes                       ³                                 5-2
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ HCC is able to convert texts into a charset which is usually used by
+ some computer freaks by using the -f option.
+ But the best thing is: it is able to reconstruct those weird texts into
+ a readable, usual charset by 98% by using the -u option.
+ Just try and have fun. Others will wonder about your new mail design ! ;-)
+
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Size conversion                    ³                                 5-3
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Letter sizes may be converted additionally to every other conversion.
+ You can get upper case text (-c) or lower case text (-s) or you can
+ let HCC create upper AND lower case letters (-n). For that special bit of
+ confusion finally let HCC forget about converting the first letter of a word
+ (-b). Lots of fun is guaranteed !
+
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ German letter conversion           ³                                 5-4
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Some (German) people don't like letters like „,”, or á. English people
+ even less. With the -g option you'll be able to get then converted into
+ another notation ('ae','oe','ue' or double 's')
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Filter & conversion utilities      ³                                 6-0
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Bit 7 filter                       ³                                 6-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ In some Fidonet echos you're not allowed to use the most significant bit
+ according to different computer systems and charsets. With the -7 option
+ HCC will convert the IBM special codes >127 like border parts and others
+ into standard ASCII or simply leaves bit 7 off. HCC does it's best to make
+ it look nearly the same as it did before.
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Special options                    ³                                 7-0
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Force YES to any question          ³                                 7-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Even as a beta user you're able to convert groups of files
+ by using the FOR command of the DOS command interpreter.
+ If you try to convert twice HCC will ask for overwriting actions
+ again and again and again....force YES to this questions by using
+ the -y option !
+
+ Last example: This'll convert all ANSI files to ASCII without
+ asking for overwriting actions (!!!):
+
+ for %a in (*.ans) do hcc -vy %a
+
+                                -
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ More about Tetrabyte               ³                                 8-0
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Well, that's it 
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Tetrabyte Support BBS              ³                                 8-1
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Always get the newest Tetrabyte stuff at the following
+ support billboard systems:
+
+        Germany:
+        --------
+        Negros BBS Tetrabyte WHQ        +49/5207/927944 28.800 V.anything
+        Fido: 2:2432/411                +49/5207/927945 64.400 ""/ISDN
+
+
+        Suicide BBS                     +49/5205/4225 28.000 V.anything
+        suicide.turboland.de            +49/5205/4215 64.400 ""/ISDN
+
+ Tetrabyte Homepage:
+ http://members.aol.com/tetraweb/start.htm
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ The author                         ³                                 8-2
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Sven Michael Klose, born on April, the 8th in 1996.
+ 12 years of programming experience assembly language and some high level
+ programming language.
+ Studies psychology and music in Bielefeld, Germany.
+
+ Any suggestions to HCC are always welcome !
+ For registering and questions:
+
+ sklose@post.uni-bielefeld.de
+
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Tetrabyte Freeware/Shareware !     ³                                 8-3
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Following programs may be downloaded freely from our homepage or one
+ of our HQs:
+
+        XKEY.*          - Speedup your keyboard without claiming
+                          memory. (Cardware)
+
+        PM.*            - Ede's PlayMOD (Cardware)
+
+        
+        G65Xv2_2.*      - Genesis 65XX Cross- & Macroassembler v2.3
+                          Creates binary or T64 files for C64 emulators.
+                          Handle undocumented commands of the 65XX CPU.
+                          Include files (source/binary) are supported.
+                          Fast and reliable !
+                          New version 3.0 in January 1996.
+                          (Shareware)
+
+        TAS*.*          - Spaceman's Advertisement Sampler
+                          Latest revision 19.08.96 (Freeware)
+                          It's updated monthly.
+
+        and much more ...
+
+ÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ³ Tetrabyte member list              ³                                 8-4
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ In alphabetical order:
+
+        Andr‚ Moriáe       (Stargate)      programmer (pas/asm)
+        Dirk Arnicke       (Jawbreaker)    musician   (any system)
+        Emmanuel Henn‚     (Roi)           graphics artist (any system)
+        Sascha Krause      (Ede)           programmer (pas/pc)
+        Sven Klose         (Spaceman)      programmer (asm/pc)
+
+(c)1996 Tetrabyte

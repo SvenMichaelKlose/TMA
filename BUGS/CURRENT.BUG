@@ -1,0 +1,8 @@
+If you've found M$ certified undocumented features (bugs) please send a
+message to the one who wrote the buggy part.
+
+Current buglist:
+
+ - MOVSX/MOVZX d reg,w mem	   converts to	d reg, b mem
+ - Double definitions within structure are not detected.
+

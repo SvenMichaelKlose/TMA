@@ -1,0 +1,8 @@
+    CONST pi = 3.141592654#
+OPEN "x" FOR OUTPUT AS #1
+FOR a = 0 TO 359 STEP 360 / 256
+PRINT #1, INT(SIN(a * (pi / 180)) * 65536); ",";
+NEXT
+CLOSE
+
+

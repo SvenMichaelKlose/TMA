@@ -1,0 +1,53 @@
+; 6510 multiplication (8*8=16) & division (16/8=8)
+        sys start
+
+factora byt ?
+factorb byt ?
+result  wor ?
+dividend wor ?
+divisor byt ?
+
+start
+;l       e/2
+;        a/2     C: eh=eh+b
+mul     lda #0
+        sta result
+        sta result+1
+        ldx #8
+mul2    lda result
+        lsr
+        lsr result+1
+        adc #0
+        sta result
+        ;
+        lsr factora
+	bcc mul3
+        lda result+1
+        clc
+        adc factorb
+        sta result+1
+mul3    dex
+	bne mul2
+        rts
+
+;l       ah-b    nc: c or 1
+;        a*2
+;        c*2
+div     lda #0
+        sta result
+        ldx #8
+div2    lda dividend+1
+        clc
+        adc divisor
+        bcs div3
+        inc result
+div3    lda dividend+1
+        asl
+        asl dividend
+	bcc div4
+        ora #1
+div4    dex
+        bne div2
+        rts
+
+

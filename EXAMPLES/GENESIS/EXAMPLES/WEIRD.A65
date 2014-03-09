@@ -1,0 +1,9 @@
+; ***************************************************
+; *** WEIRD.A65 - An example for weird label defs ***
+; ***************************************************
+
+screenposition  =$400
+willy           =3456
+
+        org $1000
+label   lda <screenposition+!0345-willy|1211/2*5&%01110110101|2

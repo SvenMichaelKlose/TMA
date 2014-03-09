@@ -1,0 +1,34 @@
+DIDE editor key assignment
+=============================================================================
+
+Ctrl-A     WordLeft                  Left       CharLeft
+Ctrl-C     PageDown                  Right      CharRight
+Ctrl-D     CharRight                 Ctrl-Left  WordLeft
+Ctrl-E     LineUp                    Ctrl-Right WordRight
+Ctrl-F     WordRight                 Home       LineStart
+Ctrl-G     DelChar                   End        LineEnd
+Ctrl-H     BackSpace                 Up         LineUp
+Ctrl-L     SearchAgain               Down       LineDown
+Ctrl-M     NewLine                   PgUp       PageUp
+Ctrl-O     IndentMode                PgDn       PageDown
+Ctrl-R     PageUp                    Ctrl-PgUp  TextStart
+Ctrl-S     CharLeft                  Ctrl-PgDn  TextEnd
+Ctrl-T     DelWord                   Ins        InsMode
+Ctrl-U     Undo                      Del        DelChar
+Ctrl-V     InsMode                   Shift-Ins  Paste
+Ctrl-X     LineDown                  Shift-Del  Cut
+Ctrl-Y     DelLine                   Ctrl-Ins   Copy
+                                     Ctrl-Del   Clear
+
+
+Quick keys                           Block keys
+----------                           ----------
+Ctrl-Q+A   Replace                   Ctrl-K+B   StartSelect
+Ctrl-Q+C   TextEnd                   Ctrl-K+C   Paste
+Ctrl-Q+D   LineEnd                   Ctrl-K+H   HideSelect
+Ctrl-Q+F   Find                      Ctrl-K+K   Copy
+Ctrl-Q+G   GotoLine                  Ctrl-K+Y   Cut
+Ctrl-Q+H   DelStart                  
+Ctrl-Q+R   TextStart
+Ctrl-Q+S   LineStart
+Ctrl-Q+Y   DelEnd

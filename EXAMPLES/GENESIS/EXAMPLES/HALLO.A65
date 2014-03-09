@@ -1,0 +1,32 @@
+; *** Rasterzeileninterrupt auf dem C64er von Darius Kubarth
+; *** fr den Genesis 65XX Crossassmbler
+        sys init
+init    lda #$00       ;farben setzen
+
+        sta $d020
+        sta $d021
+        sei
+        lda #<start
+        sta $0314
+        lda #>start
+        sta $0315
+        lda #01
+        sta $d01a
+        lda #$7f
+        sta $dc0d
+        lda #$1b
+        sta $d011
+        lda #$80
+        sta $d012
+        cli
+        rts
+start   inc $d019
+        inc $d020
+        inc $d021
+        lda $d012
+loop    cmp $d012
+        beq loop
+        dec $d020
+        dec $d021
+        jmp $ea31
+

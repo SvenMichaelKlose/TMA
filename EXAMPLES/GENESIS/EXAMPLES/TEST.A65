@@ -1,0 +1,52 @@
+	sys start
+start   lda #27     ;zeichensatz auf $2000
+	lda 2
+	ldx 2
+	nop
+	sta $d018
+	lda #$00    ;rahmen schwarz
+	sta $d020
+	lda #$3b    ;hires einschalten
+	sta $d011
+	lda #$c8    ;2 farben
+	sta $d016
+; -----
+	ldx #$20    ;bildschirm loeschen
+	stx $03
+	ldy #$00
+	sty $02 
+loop1   lda #$aa
+	sta (02),y
+	dey
+	lda #$55
+	sta (02),y
+	dey
+	bne loop1
+	inx
+	stx $03
+	cpx #$40
+	bne loop1
+
+	ldx #$04
+	stx l2+2
+	ldy #255
+	lda #0
+l2      sta $400,y
+	dey
+	bne l2
+	inx
+	cpx #12
+	bne l2
+
+	ldy #20
+	lda #0
+l1      lda ctab,y
+	sta $400,y
+	dey
+	bpl l1
+	rts
+
+ctab    
+	byt $00,$02,$22,$2a,$aa,$7a,$77,$71,$11
+	byt $71,$77,$7a,$aa,$a2,$22,$20,$00
+

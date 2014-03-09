@@ -1,0 +1,1 @@
+..\..\bin\tma truncate.asm

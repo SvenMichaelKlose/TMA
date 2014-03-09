@@ -1,0 +1,61 @@
+; >>> New HIRES routines for C64
+; >>> (c)1996 Sven Klose
+
+	sys start
+	ext vic.ext
+hiresaddr=40*4+12+$400   ;Position des Screen im Textram
+
+start   lda #%01001110
+	sta startchars
+	jsr inithires
+;        jsr clearhires
+s jmp s
+	rts
+
+inithires
+	lda #<hiresaddr ;Pointer mit Anfang des Screens im Screen laden
+	sta 2
+	lda #>hiresaddr
+	sta 3
+	ldx #$f0        ;1.Zeichen rechts oben
+inith2  txa
+	ldy #15         ;1 Zeile beschreiben
+inith3  sta (2),y       ;Zeichen setzen
+	stc             ;Wert des n„chsten, linken Zeichens
+	sbc #$10
+	dey             ;Zeiger darauf
+	bpl inith3      ;Zeile voll, n„chste
+	lda 2           ;Pointer auf n„chste Zeile (+40)
+	clc
+	adc #40
+	sta 2
+	lda 3
+	adc #0
+	sta 3
+	inx
+	bne inith2      ;und weiter, bis Zeichen $FF berschreitet
+	rts
+
+clearhires
+	lda startchars  ;Startadresse des Zeichensatzes holen
+	and #%1110
+	asl
+	asl
+	tax
+	stx 3           ;Startadresse in Vector schreiben
+	clc
+	adc #8
+	sta c2+1        ;Endadresse eintragen
+
+	ldy #0
+	sty 2
+	lda #$55
+c1      sta (2),y
+	dey
+	bne c1
+	inx
+	stx 3
+c2      cpx #$20
+	bne c1
+	rts
+

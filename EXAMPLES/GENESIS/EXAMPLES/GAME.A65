@@ -1,0 +1,309 @@
+; *****************************************************
+; ***        Shoot'em up for Commodore C64          ***
+; *** To be assembled with Genesis 6510 Version 2.0 ***
+; *****************************************************
+	
+	SYS start_here  ;create SYS line for C64/VC20
+
+v       =$d000
+si      =$d400
+form1   =2040
+form2   =2041
+form3   =2042
+form4   =2043
+form5   =2044
+form6   =2045
+form7   =2046
+form8   =2047
+clr     =$e544
+x1      =v+0
+y1      =v+1
+x2      =v+2
+x3      =v+4
+y3      =v+5
+joy     =$dc00
+kolli   =v+30
+random  =$dc04
+flag    =2
+wait    =$eeb3
+puff1   =2040
+m1      =puff1+$40
+charpuff=8192
+col     =$d800-1
+	
+	org 2040+73
+
+; *** Sprite data
+	exb sprites.bin
+
+; *** Background data
+char    exb backgrnd.bin
+
+; *** VIC data
+vicdata byt 172,200,172,200,200,0,32,225,32+24,225,32+48,225
+	byt 32,225,53,225,%11000000,19+8,0,0,0,%11000111,19,0,$18,0,0,0
+	byt %11111111,0,0,0,0,0,0,0,0,1,0,14,14,5
+
+; *** SID data
+siddata byt 0,%1010,0,0,%10101,0,%11010000,0,%11000000
+	byt 0,0,129,0,%11110000,0,%1011,0,0,%100001,0
+	byt %11110000,0,%1101,%11110010,%10011111
+	
+level   byt 0
+scr     byt 0
+lives   byt 0
+
+
+	;lst start_here
+	org 3000
+start_here
+	lda #4
+	sta lives
+	jsr clr
+	jsr initchar
+
+	;lst setup
+setup   lda #7
+	sta level
+	ldy #74
+	lda #0
+loop1   sta puff1-1,y
+	dey
+	bne loop1
+	
+drawscreen
+	ldy #2048/64
+	sty form1
+	iny
+	sty form2
+	sty form4
+	sty form5
+	sty form6
+	iny
+	sty form3
+
+	;lst pointsprites
+	;lst pointsprites/64
+	ldy #pointsprites/64
+	sty form7
+	iny
+	sty form8
+
+	ldy #0
+loop2   cpy #$18
+	beq novic
+	lda vicdata,y
+	sta v,y
+novic   iny
+	cpy #42
+	bne loop2
+	lda #11
+	sta v+33
+	jsr initchar
+	lda #%10000
+	sta m1-64
+	sta m1+3-64
+	asl
+	sta m1+6-64
+	lda #1
+	sta m1+1-64
+	sta m1+4-64
+	asl
+	sta m1+7-64
+
+sid     ldy #25
+m2      lda siddata-1,y
+	sta si-1,y
+	dey
+	bne m2
+	
+scroll  jsr scroll2
+	
+	ldy lives       ;Anzeige der Leben
+	
+	lda #%111111
+	dey
+	bne n1
+	lda #%000111
+	jmp nok
+n1      dey
+	bne n2
+	lda #%001111
+	jmp nok
+n2      dey
+	bne nok
+	lda #%011111
+nok     sta $d015
+
+	lda y3
+	bne continue
+	lda random      ;Gegner w„hlen
+	and #1
+	clc
+	adc #2048/64+1
+	sta form3
+continue
+
+laser   lda y1
+	sta si+15
+	cmp #$20
+	bcc soundoff
+	sbc #3
+	sta y1
+	bne shoot
+soundoff 
+	lda #0
+	sta si+15
+shoot   lda joy
+	tax
+	and #16
+	bne left1
+	lda #0
+	sta kolli
+	lda #200
+	sta y1
+	lda x2
+	sta x1
+left1   txa
+	and #4
+	bne right1
+	ldy x2
+	cpy #90
+	bcc right1
+	dec x2
+right1  txa
+	and #8
+	bne equal
+	ldy x2
+	cpy #250
+	bcs equal
+	inc x2
+equal   ldy x2
+	sty x1
+
+sphere  lda random
+	cmp #8
+	bcs left2
+invers  lda flag
+	eor #128
+	sta flag
+left2   lda flag
+	bmi right2
+	lda x3
+	cmp #90
+	beq invers
+	dec x3
+	bne bottom
+right2  lda x3
+	cmp #250
+	bcs invers
+	inc x3
+bottom  inc y3
+
+crash   lda kolli
+	tay
+	and #1
+	beq jetcrash
+	
+	lda #8
+	sta y1
+	ldy #0
+exloop  jsr scroll2
+	inc y3
+	inc y3
+	inc y3
+	inc y3
+	inc y3
+	inc y3
+	iny
+	cpy #16
+	bne exloop
+	dec level
+	lda level
+	cmp #2
+	bne ex2
+	adc #1
+ex2     and #31
+	sta level
+
+	lda #2048/64+2
+	sta form3
+
+	lda #8
+	sta y3
+	sta kolli
+	jmp again
+;
+jetcrash
+	tya
+	and #2
+	beq again
+	
+	dec lives
+
+loop5   lda 203
+	cmp #1
+	bne loop5
+	
+	lda #24
+	sta level
+	lda lives
+	cmp #0
+	beq endofgame
+	jmp setup
+
+again   jmp scroll
+
+	;lst endofgame
+endofgame
+	brk
+
+; *** Copy background charset to $1000
+initchar  
+	ldy #8
+charloop 
+	lda char-1,y
+	sta charpuff-1,y
+	sta charpuff+7,y
+	sta charpuff+7+8,y
+	dey
+	bne charloop
+
+	ldy #0
+dloop   lda #1
+	sta 1023,y
+	sta 1023+255,y
+	sta 1023+255+255,y
+	sta 1023+255+255+234,y
+	lda #15
+	sta col,y
+	sta col+255,y
+	sta col+255+255,y
+	sta col+255+255+234,y
+	dey
+	bne dloop
+	rts
+;
+scroll2 ldx scr
+	inx
+	txa
+	and #7
+	sta scr
+	ora #16
+	sta $d011
+
+	lda level
+	and #31
+	sta level
+	ora #1
+	tax
+
+loop4   jsr wait
+	dex
+	bne loop4
+	rts
+;
+	org */64*64+128
+	;lst pointsprites
+
+pointsprites

@@ -1,0 +1,779 @@
+
+
+
+
+
+		  Genesis 65xx Crossassembler Version 2.2
+		   & Genesis 65XX Resourcer Alpha-Version
+	     ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+		(c) 1994-96 by Sven Michael Klose, Bielefeld.
+
+Dieses Programm ist freie Software und ein Teil des TMA-Projekts.
+
+FTP:	copei.devcon.net/pub/tma
+Emai:	sven@devcon.net
+
+Bitte lesen Sie die Datei COPYING fr mehr Informationen.
+
+
+
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Inhalt			     ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Allgemeines:
+ Was ist Genesis ? ................................................... 1-0
+ Das erste Programm assemblieren ..................................... 1-1
+ Das erste Programm ausfhren ........................................ 1-2
+ šbertragung der Programme auf andere Systeme ........................ 1-3
+
+ Programmierung des Assemblers:
+ Syntax des Assemblers ............................................... 2-0
+ Syntax der 65XX-Mnemonics ........................................... 2-1
+ Labels .............................................................. 2-2
+ Mnemonics ........................................................... 2-3
+ Operand ............................................................. 2-4
+ Byte/Word-Syntax .................................................... 2-4-1
+ Rechenoperationen ................................................... 2-4-2
+ Kommentare .......................................................... 2-5
+ Directiven .......................................................... 2-6
+ Fehlermeldungen ..................................................... 3-0
+
+ Die 65xx-CPU:
+ Der 65xx-CPU-Befehlssatz alphabetisch geordnet .................... Anhang A
+ Adressierungsmodi und Ausfhrungszeiten ........................... Anhang B
+ Mnemonics der undokumentierten Befehle ............................ Anhang C
+ Codes der undokumentierten Befehle ................................ Anhang D
+ Verschiedene Versionen von Genesis ................................ Anhang E
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Was ist Genesis ?		     ³				       1-0
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Genesis ist ein sehr schneller Crossassembler fr 65x0 CPUs, welcher
+ Bin„r- und Banddateien fr den "real C64-Emulator" erzeugen kann.
+ Er beherrscht nun auch in der Sharewareversion die undokumentierten Befehle
+ fr die 6510 CPU, allerdings sind die Mnemonics ziemlich frei gew„hlt und
+ man sollte sie vorerst zu šbungszwecken einsetzen. (Ich hoffe bald eine
+ "offizielle" Liste zu erhalten.)
+ Da modulares Programmieren fr gr”ssere Projekte unentbehrlich ist
+ untersttzt Genesis Include-Dateien und Makros: letztere allerdings
+ nur in der registrierten Version.
+
+ Das mitgelieferte Programm GENRES.EXE ist die Alphaversion des passenden
+ Ressourcers zum Assembler. Ein fertige Vollversion wird zur n„chsten
+ Sharewareversion mitgeliefert. Viel Spass beim testen !
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Das erste Programm assemblieren    ³				       1-1
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Wenn Sie sich das Hauptprogramm GENESIS.EXE ansehen, werden Sie  
+ feststellen, dass es nur eine Gr”áe von rund 6 kbyte besitzt.
+ Und nicht nur das: Genesis 65xx ist in der Lage 10.000 Zeilen 
+ Quelltext in 5,12 Sekunden auf einem 386SX-20 AT zu assemblieren.
+
+ Starten Sie testweise das Programm mit dem mitgelieferten Quelltext :
+
+ GENESIS GAME.A65 GAME.BIN
+
+ Nach der Ausfhrung finden Sie die Datei GAME.BIN im aktuellen Verzeichnis.
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Das erste Programm ausfhren	     ³				       1-2
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Kein Problem, dazu sollte fr den Anfang der ein C64-Emulator, der
+ T64-Dateien verarbeiten kann, auf Ihrer Platte rosten ...
+
+ Geben Sie einfach
+
+ GENESIS GAME.A65 c:\C64_EMU\GAME.T64
+
+ Notfalls mssten Sie vielleicht den Verzeichnisnamen anpassen.
+ Genesis assembliert nun den Code und schreibt ihn als fertige
+ Banddatei in das angegebene Verzeichnis.
+
+ šbrigends : Die Genesis-Vollversion erm”glicht die Angabe von eigenen
+	     Namen fr das Tape-File ...
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ šbertragung der Programme auf andere Systeme ³		       1-3
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Natrlich wurde dieser Assembler nicht dafr geschrieben nur
+ Programme fr den C64-Emulator zu kreieren.
+ Um Ihre assemblierten Programme bertragen zu k”nnen benutzen Sie einen
+ der seriellen oder parallelen Ports Ihres PCs. Auch hier ist der
+ Assemblierungsvorgang einfach zu handhaben.
+ Geben Sie dazu
+
+ GENESIS GAME.A65 COM1
+
+ ein, um den assemblierten Code ber COM1 auszugeben.
+ Wie dem auch sei, die Verbindung zu Ihren guten, alten C64 mssen
+ Sie selber herstellen. Auch mssen Sie ein Programm schreiben
+ welches die Daten annimmt und ab Adresse $801 oder auf Diskette speichert.
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Syntax des Assemblers 	     ³				       2-0
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Dieser Teil soll nur als šberblick der Syntax dienen. Anf„nger sollten sich
+ ein gutes Buch zulegen.
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Syntax der 65XX Mnemonics	     ³				       2-1
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Genesis versteht mehr oder weniger die Standardschreibweise
+ fr 65xx-Codes.
+ Die Struktur ist jedesmal dieselbe.
+
+ Label:  Mnemonic:  Operand:	Kommentar:
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ label	 lda	    #0		; Dieser Befehl l„dt den Akku mit 0
+
+ Das Semikolon k”nnen Sie bei Befehlen mit Operanden weglassen,
+ besser ist es aber fr die Geschwindigkeit des Assemblers.
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Labels			     ³				       2-2
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Ein Label f„ngt immer mit einem Buchstaben an und endet mit einem
+ Leerzeichen oder dem Zeilenende.
+ Benutzen Sie aber nie Zeichen, welche reserviert sind fr Operanden.
+ Zum Beispiel:
+
+ WriteChar-1
+ Hello$
+ A&bs
+
+ Genesis kann mit solchen Labels nichts anfangen und quittiert dies mit einer
+ entsprechenden Fehlermeldung.
+ Der šbersichtlichkeit halber, k”nnen Labels auch hintereinander geschrieben
+ werden, z.B wenn Sie Speicherplatz sparen m”chten, beim Ablegen von Werten.
+
+ pointer xpos overbyte BYT 0
+
+ Bei der EQU-Funktion wird allerdings nur das letzte Label der
+ Zeile mit einem Wert definiert.
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Mnemonics			     ³				       2-3
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Diese, unregistrierte Version versteht Standardmnemonics und
+ undokumentierte Befehle. Diese Dokumentation enth„lt eine Liste der
+ Beschreibungen der Codes und des Timings aller Befehle der 65xx-Serie
+ im Anhang.
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Operanden			     ³				       2-4
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Folgende Adressierungsarten sind erlaubt:
+
+ Adressierung:		 Beispiel:
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ Implied		 ASL
+ Immediate		 LDA #$ff
+ Zero paged		 LDA $12
+ Zero paged,X		 LDA $12,X
+ Absolut		 LDA $4232
+ Absolut,X		 LDA $4232,X
+ Absolut,Y		 LDA $4232,Y
+ Indirekt Indiziert	 LDA ($02,X)
+ Indiziert Indirekt	 LDA ($02),Y
+ Indirekt (fr Sprnge)  (START)
+
+ Die meisten Befehle der 65xx-Prozessoren arbeiten nicht mit
+ allen Adressierungsarten.
+ Genesis gibt dann die passenden Fehlermeldungen aus.
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Byte/Word-Syntax		     ³				       2-4-1
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Genesis versteht folgende Syntax:
+
+ Definition		 Beispiel:
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ dezimal		 LDA #1
+ hexadezimal		 LDA #$a4
+ bin„r			 AND #%01001001
+ oktal			 ORA #!732
+ ASCII			 LDY #"a"
+	 oder		 LDA #"""
+	 oder sogar	 STA "21" ;der erste Buchstabe definiert das High-Byte
+
+
+ M”chten Sie nur das High- oder Lowbyte verwenden, schreiben Sie folgende
+ Zeichen vor Konstanten oder Labels :
+ '>' fr das Highbyte oder
+ '<' fr das Lowbyte.
+
+ Beispiele:		 LDA <screen		;Low-Byte von SCREEN
+			 STA screenpointer1
+			 LDA >screen		;High-Byte von SCREEN
+			 STA screenpointer2
+			 LDY #0
+			 LDA (screenpointer),Y
+			 ...
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Rechenoperationen		     ³				       2-4-2
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Genesis verfgt ber Folgende:
+
+ Defintion	  Beispiel
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ addieren	  label + 123
+ substrahieren	  label - 123
+ multiplizieren   label * 16
+ dividieren	  label / 16
+ UND-Verknpfung  label & $ff
+ ODER-Verknpfung label | $%1010000000000000
+ aktuelle Code-   ORG */64*64+1
+ position	  STA *+$100
+
+
+ Und nun ein exotisches Beispiel:
+
+ label		 lda <screenposition+!0345-willy|>1211/2**-5&%01110110101|2
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Kommentare			     ³				       2-5
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Nach einem Semikolon ausserhalb einer Zeichenkette k”nnen Sie
+ jeden, beliebigen Text als Kommentar schreiben.
+ Und wieder ein Beispiel (Ja, ich bin faul.):
+
+ hallo	 sta $d018	 ; schreibt Wert in ein VIC-Register
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Direktiven			     ³				       2-6
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+ ORG <word>[,<word>]	 ; Bestimmt aktuelle Codeposition.
+			 ; Das erste ORG in einem Programm definiert
+			 ; den Anfang des Codes, das Ende des letzten
+			 ; Befehls hinter dem letzten ORG definiert
+			 ; das ... Ende natrlich.
+			 ; Mit der zweiten Option ist es m”glich,
+			 ; die zu assemblierenden Adressen fr einen
+			 ; anderen Bereich zu kreieren.
+ ORG ,<word>		 ; <- Die Schreibweise beh„lt die aktuelle
+			 ; Adresse bei und braucht nicht neu definiert
+			 ; zu werden.
+
+ label EQU <word> oder	 ; Gibt einem Label einen Wert. Ist dieser Wert kleiner
+ label =   <word>	 ; als 256 k”nnen Sie die Definitionen auch bei
+			 ; "Immediate" oder "Zero Page"-Adressierungen nutzen.
+			 ; flag=255
+			 ; LDA #flag
+
+ BYT <byte1>,<byte2>,... ; Schreibt Byte(s) an die aktuelle Position.
+
+ WOR <word1>,<word2>,... ; Macht dasselbe mit Worten.
+
+ ASC "Text"		 ; Schreibt die ASCII-Codes von Text wie BYT/WOR
+ ASC "Text",<wert>	 ; Als Werte k”nnen nur Bytes angegeben werden.
+
+ LST label		 ; Stellt den Wert des Labels auf dem Bildschirm dar.
+			 ; z.B
+			 ;
+			 ; Sprite1	 LST sprite1
+			 ;		 LST sprite1/64
+
+ SYS label		 ; Erstellt eine SYS-Zeile fr ein im
+			 ; Commodore-BASIC startbares Programm.
+			 ; Dieser Befehl enth„lt auch einen ORG $801 und
+			 ; legt so bereits den Anfang eines Programmes fest.
+			 ; Starten Sie das assemblierte Programm f„ngt es ab
+			 ; "label" an.
+
+ EXT filename.a65	 ; Fgt A65-Dateien in das Programm ein.
+			 ; EXT-Kommandos k”nnen auch verschachtelt werden.
+
+ EXB filename.bin	 ; Fgt Daten in das Programm ein. Das erspart endlose
+			 ; Pfuschereien mit dem BYT-Kommando.
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Lokale Labels 		     ³				       3-0
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Lokale Labels sind eine Neuerung in Genesis. Sie werden durch einen
+ vorangestellten Klammeraffen '@' im Namen definiert.
+ Das Gr”áer- bzw. Kleiner-Zeichen wird bei Aufrufen dazu benutzt, das
+ vorherige oder nachfolgende Label dieses Namens zu spezifizieren.
+ Die Nutzung des vorherigen Labels ist, aufgrund der h„ufigen Nutzung in
+ Schleifen, standard.
+
+ @1	JMP >@1
+ @1	JMP @1
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Fehlermeldungen		     ³				       3-0
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Fehlermeldungen erscheinen beim Assemblierungsvorgang auf dem Bildschirm,
+ wenn n”tig. Diese Version schreibt Fehlermeldungen automatisch in den
+ Quelltext und entfernt sie anschliessend wieder wenn die Fehler beseitigt
+ wurden.
+
+ Hier eine Liste der m”glichen Fehlermeldungen. Die meisten erkl„ren sich
+ selbst.
+
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+   Die 65xx CPU versteht verschiedene, indirekte Adressierungen die aller-
+   dings von den benutzten Registern abh„ngen. Folgende schreibweisen sind
+   erlaubt:
+	 lda (label,x)
+	 lda (label),y
+   Wird versucht eine der beiden Adressierungen mit anderen Registern zu
+   benutzen, erscheint eine der beiden Fehlermeldungen:
+
+ 01:"Indiziert indirekte Adressierung klappt nur mit dem X-Register"
+	bei ??? (label,y)
+ 02:"Indirekt indizierte Adressierung klappt nur mit dem Y-Register"
+	bei ??? (label),x
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 03:"Unbekannte Adressierung"
+   Genesis konnte den Operanden eines Befehls nicht entziffern.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 04:"Sie vergaáen das Kommentar-Zeichen "
+   Die Meldung erscheint bei einen Kommentar, welches ohne Semikolon auf einen
+   Befehl ohne Operanden folgt.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 05:"Dieses Mnemonic ben”tigt eine andere Adressierung"
+   Bei einem solchen Fehler k”nnen Sie in der Timingliste (Anhang B) nachsehen
+   welche Adressierungen bei bestimmten Befehlen erlaubt sind.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 06:"Dieses Mnemonic ben”tigt keinen Operanden"
+ 07:"Dieses Mnemonic ben”tigt einen Operanden"
+ 08:"Dieser Operand ist nicht vollst„ndig"
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 09:"Was soll das heissen ?!?"
+   Bei dieser Fehlermeldung konnte Genesis mit der aktuellen Zeile aufgrund
+   eines Syntaxfehlers nichts anfangen.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 10:"Diese Konstante ist zu gross"
+   Die 65xx CPU verarbeitet nur 8-Bit werte. Die fehlerhafte Konstante
+   ben”tigte mehr Bits.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 11:"Diese Adressierung ben”tigt ein Byte, kein Wort"
+ 12:"Dieses Label kommt doppelt vor"
+ 13:"Dieses Label ist nicht definiert worden"
+ 14:"Sprung kann sein Ziel nicht erreichen (>128)"
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 15:"Sie k”nnen dieses Direktiv nur in der registrierten Version von
+     Genesis benutzen"
+   Tritt dieser Fehler auf, dann haben sie einen Befehl benutzt, den sie nur
+   in der registrierten Version von Genesis benutzen k”nnen.
+   Genesis ist in der Vollversion mit Macros und lokalen Labels fr 20,-DM+
+   Porto zu haben.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 16:"Dieser String hat keine Endung"
+   Dieser Fehler wird angezeigt, wenn Sie bei einem ASC oder BYT-Befehl die
+   abschliessenden "G„nsefáchen" fr einen ASCII-Text vergessen haben.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 17:"Sie vergaáen ein oder zwei Buchstaben oder den String zu beenden"
+   Diese Fehlermeldung tritt auf, wenn Sie einen Leerstring "" angeben.
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 18:"Sie k”nnen nur das Y-Register fr eine Indizierung mit LDX/LDY-Befehlen
+     benutzen"
+ 19:"Das EXT/EXB-Direktiv ben”tigt einen Dateinamen"
+ 20:"Ich konnte die Include-Datei nicht finden"
+ 21:"Die Makro-Definition erlaubt nur BYT- oder WOR-Mnemonics
+     z.B. (MAC BYT WOR)"
+ 22:"Ich vermisse das #EM-Direktiv"
+ 23:"Es k”nnen keine Makros in einem Makro benutzt werden"
+ 24:"Es drfen keine Mnemonics in einem Operanden benutzt werden",0
+ 25:"Diese Konstante ist fehlerhaft",0
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Der 65xx-CPU-Befehlssatz alphabetisch geordnet ³		 - Anhang A -
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ ADC	 Addiere Speicherinhalt zum Akku mit Carry-Flag
+ AND	 UND-Verknpfung von Speicher mit Akku
+ ASL	 Verschiebt Akku oder Speicher um 1 Bit nach links
+
+ BCC	 Verzweigt wenn Carry-Flag gel”scht ist
+ BCS	 Verzweigt wenn Carry-Flag gesetzt ist
+ BEQ	 Verzweigt wenn Ergebnis gleich Null
+ BIT	 Vergleicht Bits aus Speicher mit Akku
+ BMI	 Verzweigt wenn Ergebnis negativ
+ BNE	 Verzweigt wenn Ergebnis ungleich Null
+ BPL	 Verzweigt wenn Ergebnis positiv
+ BRK	 Erzwingt Programmabruch
+ BVC	 Verzweigt wenn Overflow-Flag gel”scht ist
+ BVS	 Verzweigt wenn Overflow-Flag gesetzt ist
+
+ CLC	 L”scht Carry-Flag
+ CLD	 L”scht Dezimalmodus
+ CLI	 Erm”glicht Interrupts
+ CLV	 L”scht Overflow-Flag
+ CMP	 Vergleicht Speicherinhalt mit Akku
+ CPX	 Vergleicht Speicher mit Indexregister X
+ CPY	 Vergleicht Speicher mit Indexregister Y
+
+ DEC	 Dekrementiert Speicherinhalt oder Akku um 1
+ DEX	 Dekrementiert Indexregister X um 1
+ DEY	 Dekrementiert Indexregister Y um 1
+
+ EOR	 "exclusiv-ODER"-Verknpfung von Speicher mit Akku
+
+ INC	 Inkrementiert Akku oder Speicher um 1
+ INX	 Inkrementiert Indexregister X um 1
+ INY	 Inkrementiert Indexregister Y um 1
+
+ JMP	 Springt zu neuer Adresse
+ JSR	 Springt zu neuer Adresse und speichert Rcksprung auf Stack
+
+ LDA	 L„dt Akku mit Speicher
+ LDX	 L„dt Indexregister X mit Speicher
+ LDY	 L„dt Indexregister Y mit Speicher
+ LSR	 Schiebt Speicher oder Akku um 1 Bit nach rechts
+
+ NOP	 keine Operation
+
+ ORA	 ODER-Verknpfung von Speicher mit Akku
+
+ PHA	 Legt Akku auf Stack ab
+ PHP	 Legt Prozessorstatus auf Stack ab
+ PLA	 Holt Akku vom Stack
+ PLP	 Holt Prozessorstatus vom Stack
+
+ ROL	 Rotiert Speicher oder Akku um 1 Bit nach links
+ ROR	 Rotiert Speicher oder Akku um 1 bit nach rechts
+ RTI	 Rcksprung von Interruptroutine
+ RTS	 Rcksprung von Unterprogramm
+
+ SBC	 Subtrahiert Speicher von Akku mit Carry-Flag
+ SEC	 Setzt das Carry-Flag
+ SED	 Schaltet Dezimalmodus ein
+ SEI	 Verhindert interrupts
+ STA	 Legt Inhalt des Akkus im Speicher ab
+ STX	 Legt Inhalt des Indexregisters X im Speicher ab
+ STY	 Legt Inhalt des Indexregisters Y im Speicher ab
+
+ TAX	 L„dt Indexregister X mit Akku
+ TAY	 L„dt Indexregister Y mit Akku
+ TSX	 L„dt Indexregister X mit Stackpointer
+ TXA	 L„dt Akku mit Indexregister X
+ TXS	 L„dt Stackpointer mit Indexregister X
+ TYA	 L„dt Akku mit Indexregister Y
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Adressierungsmodi und Ausfhrungszeiten	 ³		 - Anhang B -
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+	Ac/Im	= accu/implied
+	It	= immediate
+	ZP	= Zero page
+	ZX	= Zero page Indiziert mit X-Register
+	ZY	= Zero page Indiziert mit Y-Register
+	Ab	= Absolut
+	AX	= Absolut Indiziert mit X-Register
+	AY	= Absolut Indiziert mit Y-Register
+	In	= Indirekt
+	IX	= Indiziert Indirekt mit X-Register
+	IY	= Indirekt Indiziert mit Y-Register
+		
+
+		 Ac
+ Befehl 	 Im It ZP ZX ZY Ab AX AY In IX IY 
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ ADC		 .  2  3  4  .	4  4* 4* .  6  5*
+ AND		 .  2  3  4  .	4  4* 4* .  6  5*
+ ASL		 2  .  5  6  .	6  7  .  .  .  .
+ BCC		 .  .  .  .  .	.  .  .  2# .  .
+ BCS		 .  .  .  .  .	.  .  .  2# .  .
+ BEQ		 .  .  .  .  .	.  .  .  2# .  .
+ BIT		 .  .  3  .  .	4  .  .  .  .  .
+ BMI		 .  .  .  .  .	.  .  .  2# .  .
+ BNE		 .  .  .  .  .	.  .  .  2# .  .
+ BPL		 .  .  .  .  .	.  .  .  2# .  .
+ BRK		 .  .  .  .  .	.  .  .  .  .  .
+ BVC		 .  .  .  .  .	.  .  .  2# .  .
+ BVS		 .  .  .  .  .	.  .  .  2# .  .
+ CLC		 2  .  .  .  .	.  .  .  .  .  .
+ CLD		 2  .  .  .  .	.  .  .  .  .  .
+ CLI		 2  .  .  .  .	.  .  .  .  .  .
+ CLV		 2  .  .  .  .	.  .  .  .  .  .
+ * = Addieren Sie 1 wenn Indizierung Seite berschneidet.
+ # = Addieren Sie 1 wenn der Sprungbefehl ausgefhrt wird
+     und nochmal 1 Takt wenn diese Operation eine Seite berschneidet.
+		
+
+		 Ac
+ Befehl 	 Im It ZP ZX ZY Ab AX AY In IX IY 
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ CMP		 .  2  3  4  .	4  4* 4* .  .  5*
+ CPX		 .  2  3  .  .	4  .  .  .  .  .
+ CPY		 .  2  3  .  .	4  .  .  .  .  .
+ DEC		 .  .  5  6  .	6  7  .  .  .  .
+ DEX		 2  .  .  .  .	.  .  .  .  .  .
+ DEY		 2  .  .  .  .	.  .  .  .  .  .
+ EOR		 .  2  3  4  .	4  4* 4* .  6  5*
+ INC		 .  .  5  6  .	6  7  .  .  .  .
+ INX		 2  .  .  .  .	.  .  .  .  .  .
+ INY		 2  .  .  .  .	.  .  .  .  .  .
+ JMP		 .  .  .  .  .	3  .  .  5  .  .
+ JSR		 .  .  .  .  .	6  .  .  .  .  .
+ LDA		 .  2  3  4  .	4  4* 4* .  6  5*
+ LDX		 .  2  3  .  4	4  .  4* .  .  .
+ LDY		 .  2  3  4  .	4  4* .  .  .  .
+ LSR		 2  .  5  6  .	6  7  .  .  .  .
+ NOP		 2  .  .  .  .	.  .  .  .  .  .
+ ORA             .  2  3  4  .  4  4* 4* .  6  5*
+ * = Addieren Sie 1 wenn die Indizierung eine Seite berschneidet.
+
+
+		 Ac
+ Befehl          Im It ZP ZX ZY Ab AX AY In IX IY 
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ PHA             3  .  .  .  .  .  .  .  .  .  .
+ PHP             3  .  .  .  .  .  .  .  .  .  .
+ PLA		 4  .  .  .  .	.  .  .  .  .  .
+ PLP             4  .  .  .  .  .  .  .  .  .  .
+ ROL             2  .  5  6  .  6  7  .  .  .  .
+ ROR             2  .  5  6  .  6  7  .  .  .  .
+ RTI             6  .  .  .  .  .  .  .  .  .  .
+ RTS             6  .  .  .  .  .  .  .  .  .  .
+ SBC		 .  2  3  4  .	4  4* 4* .  6  5*
+ SEC             2  .  .  .  .  .  .  .  .  .  .
+ SED		 2  .  .  .  .	.  .  .  .  .  .
+ SEI             2  .  .  .  .  .  .  .  .  .  .
+ STA             .  .  3  4  .  4  5  5  .  6  6
+ STX             .  .  3  .  4  4  .  .  .  .  .
+ STY             .  .  3  4  .  4  .  .  .  .  .
+ * = Addieren Sie 1 wenn die Indizierung eine Seite berschneidet.
+
+		
+		 Ac
+ Befehl 	 Im It ZP ZX ZY Ab AX AY In IX IY 
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ TAX             2  .  .  .  .  .  .  .  .  .  .
+ TAY             2  .  .  .  .  .  .  .  .  .  .
+ TSX             2  .  .  .  .  .  .  .  .  .  .
+ TXA             2  .  .  .  .  .  .  .  .  .  .
+ TXS		 2  .  .  .  .	.  .  .  .  .  .
+ TYA             2  .  .  .  .  .  .  .  .  .  .
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Mnemonics der undokumentierten Befehle         ³               - Anhang C -
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Undokomentierte Befehle der 65xx-CPU alphabetisch geordnet
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+ AAX     UND-Verknpfung von A mit X und Ablage in den Speicher
+ ARR     UND-Verknpfung von A mit Speicher und Rotation nach rechts.
+ ASR	 UND-Verknpfung von A mit Speicher und Verschiebung nach rechts.
+ ATS	 UND-Verknpfung von A mit Speicher und Setzen des Carry-Flags wenn
+	 das Ergebnis falls Bit 7 gesetzt ist.
+ AX2	 UND-Verknpfung von A mit X und 21hex Ablage in den Speicher.
+ AY2	 UND-Verknpfung von A mit Y und 21hex Ablage in den Speicher.
+
+ DCP	 DEC und CMP mit Speicher
+
+ HLT	 Stoppt die CPU. Nur ein Reset hilft dann noch weiter.
+
+ ISB	 INC und SBC mit Speicher
+
+ LAX	 L„dt A und X mit einem Wert aus dem Speicher.
+
+ MAX	 UND-Verknpfung von X und Speicher. Die Ergebnisbits 1-7 werden
+	 im Akku abgelegt. Fr das BIT 0 gilt die UND-Verknpfung von
+	 A, X und Speicher. (Nur Bits 0 !)
+
+ RLA	 ROL und AND von A mit Speicher
+
+ SLO	 ASL und ORA mit Speicher
+ SPM	 Legt das Ergebnis von SP und Speicher in A,X und SP ab.
+ SRE	 LSR und EOR mit Speicher
+ SX0	 Legt X im Speicher ab wenn es gleich null ist
+
+ RRA	 ROR und ADC mit Speicher
+
+ XAM	 Legt das Ergebnis der Verknpfung X UND im Speicher und in X ab
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Codes der undokumentierten Befehle		 ³		 - Anhang D -
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ Bemerkung: Die folgende Tabelle benutzt viele Abkrzungen.
+	    A = Akku, X = X-Register, Y = Y-Register,
+	    SP = Stackpointer, M = Speicher.
+	    -> bedeutet, dass die Ergebnisse in folgenden Register/Speicher
+	       abgelegt werden.
+	    Die Flags werden wie in blichen Befehlen manipuliert, aus denen
+	    sich einige Befehle zusammensetzen.
+
+ Wert	 Mnemonic Adressierung	  Wirkung
+ ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+ 02	 HLT	  -		  Total HALT
+ 03	 SLO	  (Ind,X)	  ASL,ORA
+ 04	 NOP	  Zeropage	  NOP
+ 07	 SLO	  Zeropage	  ASL,ORA
+ 0B	 ATS	  Immediate	  AND #$xx,ASL A (nur die Flags werden gesetzt)
+ 0C	 NOP	  Absolute	  NOP
+ 0F	 SLO	  Absolute	  ASL,ORA
+
+ 12	 HLT	  -		  Total HALT
+ 13	 SLO	  (Ind),Y	  ASL,ORA
+ 14	 NOP	  Zeropage	  NOP
+ 17	 SLO	  Zeropage,X	  ASL,ORA
+ 1A	 NOP	  Implied	  NOP
+ 1B	 SLO	  Absolute,Y	  ASL,ORA
+ 1C	 NOP	  Absolute	  NOP
+ 1F	 SLO	  Absolute,X	  ASL,ORA
+
+ 22	 HLT	  -		  Total HALT
+ 23	 RLA	  (Ind,X)	  ROL,AND
+ 27	 RLA	  Zeropage	  ROL,AND
+ 2B	 ATS	  Immediate	  AND #$xx,ROL A (nur die Flags werden gesetzt)
+ 2F	 RLA	  Absolute	  ROL,AND
+ 32	 HLT	  -		  Total HALT
+ 33	 RLA	  (Ind),Y	  ROL,AND
+ 34	 NOP	  Zeropage	  NOP
+ 37	 RLA	  Zeropage,X	  ROL,AND
+ 3A	 NOP	  Implied	  NOP
+ 3B	 RLA	  Absolute,Y	  ROL,AND
+ 3C	 NOP	  Absolute	  NOP
+ 3F	 RLA	  Absolute,X	  ROL,AND
+
+ 42	 HLT	  -		  Total HALT
+ 43	 SRE	  (Ind,X)	  LSR,EOR
+ 44	 NOP	  Zeropage	  NOP
+ 47	 SRE	  Zeropage	  LSR,EOR
+ 4B	 ASR	  Immediate	  AND #$xx,LSR A
+ 4F	 SRE	  Absolute	  LSR,EOR
+ 52	 HLT	  -		  Total HALT
+ 53	 SRE	  (Ind,Y)	  LSR,EOR
+ 54	 NOP	  Zeropage	  NOP
+ 57      SRE      Zeropage,X      LSR,EOR
+ 5A	 NOP	  Implied	  NOP
+ 5B      SRE      Absolute,Y      LSR,EOR
+ 5C      NOP      Absolute        NOP
+ 5F      SRE      Absolute,X      LSR,EOR
+
+ 62      HLT      -               Total HALT
+ 63      RRA      (Ind,X)         ROR,ADC
+ 64	 NOP	  Zeropage	  NOP
+ 67      RRA      Zeropage        ROR,ADC
+ 6B	 ARR	  Immediate	  AND #$xx,ROR A
+ 6F      RRA      Absolute        ROR,ADC
+ 72	 HLT	  -		  Total HALT
+ 73      RRA      (Ind),Y         ROR,ADC
+ 74      NOP      Zeropage        NOP
+ 77      RRA      Zeropage,X      ROR,ADC
+ 7A      NOP      Implied         NOP
+ 7B      RRA      Absolute,Y      ROR,ADC
+ 7C	 NOP	  Absolute	  NOP
+ 7F      RRA      Absolute,X      ROR,ADC
+
+ 80      NOP      Zeropage        NOP
+ 82	 NOP	  Zeropage	  NOP
+ 83      SX0      (Ind,X)         0->M if X=0 , Flags bleiben unver„ndert
+ 87	 AAX	  Zeropage	  A and X -> M , Flags bleiben unver„ndert
+ 8B      MAX      Immediate       M and X -> A (bits 7-1)
+				  M0 and X0 and A0 -> A0, Flags unver„ndert
+ 8F      AAX      Absolute        A and X -> M , Flags unver„ndert
+ 92      HLT      -               Total HALT
+ 93      AX2      (Ind),Y         A and X and $21 -> M , Flags unver„ndert
+ 97      AAX      Zeropage,Y      A and X -> M , Flags unver„ndert
+ 9B	 AX2	  Absolute,Y	  A and X and $21 -> M , A and X -> SP,
+				  Flags bleiben unver„ndert
+ 9C	 AY2	  Absolute,X	  A and Y and $21 -> M , Flags unver„ndert
+ 9E      AY2      Absolute,Y      A and X and $21 -> M , Flags unver„ndert
+ 9F	 AX2	  Absolute,Y	  A and X and $21 -> M , Flags unver„ndert
+ 
+ A3      LAX      (Ind,X)         LDA,LDX
+ A7      LAX      Zeropage        LDA,LDX
+ AB      LAX      Immediate       LDA,LDX
+ AF      LAX      Absolute        LDA,LDX
+
+ B2      HLT      -               Total HALT
+ B3      LAX      (Ind),Y         LDA,LDX
+ B7      LAX      Zeropage,Y      LDA,LDX
+ BB	 SPM	  Absolute,Y	  SP and M -> A,X,SP
+ BF      LAX      Absolute,Y      LDA,LDX
+
+ C2      NOP      Zeropage        NOP
+ C3      DCP      (Ind,X)         DEC,CMP
+ C7      DCP      Zeropage        DEC,CMP
+ CB      XAM      Immediate       (X and A) - M -> X
+ CF      DCP      Absolute        DEC,CMP
+
+ D2	 HLT	  -		  Total HALT
+ D3      DCP      (Ind),Y         DEC,CMP
+ D4	 NOP	  Zeropage	  NOP
+ D7      DCP      Zeropage,X      DEC,CMP
+ DA	 NOP	  Implied	  NOP
+ DB      DCP      Absolute,Y      DEC,CMP
+ DC      NOP      Absolute        NOP
+ DF      DCP      Absolute,X      DEC,CMP
+
+ E2      NOP      Zeropage        NOP
+ E3	 ISB	  (Ind,X)	  INC,SBC
+ E7      ISB      Zeropage        INC,SBC
+ EB      SBC      Immediate       SBC #$xx
+ EF      ISB      Absolute        INC,SBC
+
+ F2      HLT      -               Total HALT
+ F3	 ISB	  (Ind),Y	  INC,SBC
+ F4      NOP      Zeropage        NOP
+ F7      ISB      Zeropage,X      INC,SBC
+ FA      NOP      Implied         NOP
+ FB      ISB      Absolute,Y      INC,SBC
+ FC      NOP      Absolute        NOP
+ FF      ISB      Absolute,X      INC,SBC
+
+
+ÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+³ Verschiedene Versionen von Genesis             ³               - Anhang E -
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ v1.0    -       Erste Version mit Include-Dateien.
+ 
+ v1.1/1.2-       Kleine Fehler wurden beseitigt.
+
+ v2.0	 -	 Undokumentierte Befehle der 65xx CPU wurden hinzugefgt.
+		 Ebenso der EXB-Befehl.
+		 Die Befehle ASC und BYT erhalten beide dieselbe Funktion
+		 um die nervige Trennung von Texten und Werten zu
+		 vermeiden. Genesis versteht es nun auch Dateien gr”áer als
+		 64k zu verarbeiten.
+
+ v2.1	 -	 Kleine Fehler wurden beseitigt, das Programm
+		 wurde optimiert und dadurch schneller.
+		 Sonst blieb alles beim alten.
+
+ v2.2	 -	 Das ORG-Kommando wurde erweitert. Jetzt kann ein
+		 Index fr die aktuelle Codeposition definiert werden.
+		 Sehr ntzlich !
+
+

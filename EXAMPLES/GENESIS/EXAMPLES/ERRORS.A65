@@ -1,0 +1,41 @@
+	org $801
+  	ext kernal.ext
+    	lda #$9e
+	sta $fb
+	lda #$a1
+	sta $fc
+	lda #0
+	sta $33c
+	ldx #1
+	ldy #0
+loop1   lda ($fb),y
+	bmi lab1
+	jsr bsout
+	jmp lab2
+lab1    sec
+	sbc #0
+	jsr bsout
+	lda #$0d
+	jsr bsout
+	tya
+	pha
+	txa
+	pha
+loop2   jsr getin
+	beq loop2
+	pla
+	tax
+	pla
+	tay
+lab2    iny
+	cpy $33c
+	bne loop1
+	inc $fc
+	dex
+	bmi thatsit
+	bne loop1
+	lda #$8a
+	sta $33c
+	jmp loop1
+
+thatsit brk

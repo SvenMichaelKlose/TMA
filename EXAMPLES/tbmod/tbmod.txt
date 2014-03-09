@@ -1,0 +1,61 @@
+	      Tetrabyte Sound System v0.5 (c)1994-97 S.Klose
+
+ Hallo Tester !
+
+ Dies ist eine Vorversion des TBMOD-Players, der die Basis fr weitere
+ Tetrabyte Software mit Musikuntermalung bilden wird.
+ Allerdings suchen wir immer noch Fehler, die auf anderen Systemen
+ auftreten k”nnen.
+ Bitte startet den Player und schickt eine Mail, in der wir erfahren, ob
+ und auf welcher Hardware das Programm seinen Dienst verrichtete an
+ Spaceman@suicide.turboland.de
+
+ TBMOD spielt Protrackermodule auf folgenden Soundkarten :
+
+	- Soundblaster pro
+	- Windows Sound System
+	- Oak Mozart 16
+	- PAS, PAS+, PAS 16
+	- interner Speaker
+
+ M”gliche Modi der Mischroutinen :
+
+	- 8-bit/16-bit
+	- mono/stereo/stereo surround
+	- 2x oversampled
+
+ TBMOD spielt bisher nur in der puren DOS-Umgebung ohne EMM386.EXE.
+ Das wird sich demn„chst durch Protected-Mode-Untersttzung „ndern.
+
+ Kleine Geschichte :
+
+ TBMOD wurde "nebenbei" Entwickelt als Zeit und Dokus da waren.
+ Hier die Revisionsnummern :
+
+	0.1	Spielte SBpro mono
+	0.2	Untersttzung von Oak Mozart, Windows Sound System
+	0.25	Zus„tzliche Routinen fr die Pro Audio Spektrum Serie
+		Stereo surround modus fr 16 bit Ausgabe.
+	0.3	Korrigierte Periodentabelle !
+	0.4	Speakersupport...hmmpf...
+	0.41	Gaaaaaaaanz kleiner Bug is wech....;)
+	0.42	Naja, nochmal bug.
+	0.43	Zus„tzliche Kommandozeilenparameter
+	0.44	Gefixter Porta to note.
+	0.441	Perfektes Protracker timing !
+	0.45	Oversampling
+	0.5	Kleine Bugs ausgel”scht.
+
+ Heissen Dank an alle, die getestet und/oder ihre Soundkarten zur Verfgung
+ gestellt haben:
+
+	Sascha Krause		Ede/TetraByte
+	Danke fr die PAS 16 !
+
+	Florian Loedermann	Ironfist/The New Ravebusters
+	TNX1E6 fr die SB16 kompatible !
+
+	Salvatore Versano	MCD
+	Danke fr die endlose Zeit, die Du gebraucht hast, meine Karte
+	wiederzufinden, aber in der immerhin die Speakeruntersttzung
+	enstanden ist...

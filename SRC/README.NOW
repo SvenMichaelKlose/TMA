@@ -1,0 +1,13 @@
+DON'T CHANGE TMABCKUP! You can only compile TMA with itself.
+
+Start MAKE.BAT to compile a new TMA build to ../BIN.
+
+ASM\		Contains the assembler source.
+GLOBAL\ 	Global settings for a project build.
+IDE\		Sources of the generic IDE.
+TEST\		Put sources here which use the things you implemented.
+
+DOC\		Contains various documentation on things you might wish
+		to contribute.
+
+sven@devcon.net

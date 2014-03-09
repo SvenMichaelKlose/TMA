@@ -1,0 +1,203 @@
+; (c)1997 Darius Kubarth / kubi@bertelsmann.de
+
+sys start
+
+        anzahl_punkte=0
+        buffera=$6400
+        bufferb=$6000
+        vectora=$02
+        vectorb=$fa
+        speedtab=$8000
+        postabx=$8100
+        postabyl=$8200
+        postabyh=$8300
+        helligkeit=$8400
+start
+        lda     #$00            ;farben festlegen
+        sta     $d020
+        sta     $d021
+	lda	#$3b		;screen einschalten
+        sta     $d011
+        lda     #$18
+        sta     $d018
+        lda     #$00
+        sta     $02
+        lda     #$20
+	sta	$03
+
+fillloop
+        ldy     #$00
+        lda     #$aa
+        sta     (02),y
+        ldy     #$01
+        lda     #$55
+        sta     (02),y
+        inc     $02
+        inc     $02
+        bne     fillloop
+        inc     $03
+        lda     $03
+        cmp     #$3f
+        bne     fillloop
+mainloop				
+        ldx     #anzahl_punkte
+moveloop
+        lda     postabyl,x              ;nach oben bewegen
+        dec     helligkeit,x
+        beq     newpartikel
+        dec     helligkeit,x
+	beq	newpartikel
+        clc
+        adc     speedtab,x
+        sta     postabyl,x
+        lda     postabyh,x
+        adc     #$00
+        sta     postabyh,x
+        cmp     #23                     ;testen,ob partikel oben weg
+        beq     newpartikel
+        tay
+        lda     zeilenl,y               ;zeilenadresse holen
+        sta     $02
+        lda     zeilenh,y
+        sta     $03
+        ldy     postabx,x               ;xkoordinate holen
+        lda     helligkeit,x            ;helligkeit holen
+	sta	($02),y 		;pixel setzen
+        dex
+        bne     moveloop                ;und nochmal (fuer alle partikel)
+        jmp     loopa                   ;und smooth
+newpartikel
+        lda     $d012
+        sta     speedtab,x
+	lda	$d012
+        lsr
+        lsr
+        lsr
+        sta     helligkeit,x
+        ldy     $d012
+        lda     startkoorx,y
+        sta     postabx,x
+        lda     #$00
+        sta     postabyh,x
+        jmp     moveloop
+loopa
+        lda     #<buffera       ;vex vorbereiten
+        sta     vectora
+        lda     #>buffera
+        sta     vectora+1
+	lda	#<bufferb
+        sta     vectorb
+        lda     #>bufferb
+        sta     vectorb+1
+
+
+       
+loopb
+;       ldy      #$00                ;punkt fuer punkt einlesen
+;        lda     (vectora),y
+        ldy     #$27
+;        clc
+        lda     (vectora),y
+        ldy     #$28
+        clc
+        adc     (vectora),y
+        ldy     #$29
+        clc
+        adc     (vectora),y
+        ldy     #$50
+        clc
+        adc     (vectora),y           
+        tay
+	lda	durch4,y
+        lsr
+        ldy     #$28
+        sta     (vectorb),y     ;ablegen in bufferb
+
+
+        inc     vectora         ;vex inkrementieren
+	inc	vectorb
+        bne     loopb
+        inc     vectora+1
+        inc     vectorb+1
+        lda     vectora+1
+        cmp     #$84
+        bne     loopb
+
+
+        ldx     #$00            ;buffer in grap konvertieren
+loopc
+        lda     bufferb,x
+        sta     buffera,x
+        tay
+        lda     farbtab,y
+        sta     $0400,x
+	lda	bufferb+$0100,x
+        sta     buffera+$0100,x
+        tay
+        lda     farbtab,y
+        sta     $0500,x
+        lda     bufferb+$0200,x
+        sta     buffera+$0200,x
+	tay
+        lda     farbtab,y
+        sta     $0600,x
+        lda     bufferb+$0300,x
+        sta     buffera+$0300,x
+        tay
+        lda     farbtab,y
+        sta     $0700,x
+        inx
+        bne     loopc
+        jmp     mainloop        ;und nochmal...
+
+org $1000
+farbtab
+        byt     $00,$00,$00,$00,$00
+        byt     $09,$09,$09,$09,$09                             
+	byt	$99,$99,$99,$99,$99
+        byt     $92,$92,$92,$92,$92                            
+        byt     $22,$22,$22,$22,$22
+        byt     $28,$28,$28,$28,$28         
+        byt     $88,$88,$88,$88,$88
+        byt     $8a,$8a,$8a,$8a,$8a         
+        byt     $aa,$aa,$aa,$aa,$aa
+	byt	$a7,$a7,$a7,$a7,$a7	    
+        byt     $77,$77,$77,$77,$77
+        byt     $71,$71,$71,$71,$71        
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+        byt     $11,$11,$11,$11,$11
+	byt	$11,$11,$11,$11,$11
+zeilenl
+;        byt     $00,$28,$50,$78,$a0,$c8,$f0,$18,$40,$68,$90,$e0
+;        byt     $08,$30,$58,$80,$d0,$f8,$20,$48,$70,$98,$c0,$e8
+        byt     $e8,$c0,$98,$70,$48,$20,$f8,$d0,$80,$58,$30,$08
+        byt     $e0,$90,$68,$40,$18,$f0,$c8,$a0,$78,$50,$28,$00
+
+zeilenh
+       byt      $67,$67,$67,$67,$67,$67,$66,$66,$66,$66,$66,$66
+       byt      $65,$65,$65,$65,$65,$64,$64,$64,$64,$64,$64,$64
+startkoorx
+       ext koortab.inc
+durch4
+       ext durch4.inc
+
+
+
+          
+   
+
+
+        
+
+

@@ -1,0 +1,17 @@
+        sys init
+init    lda #25                 
+        sta $d018
+        lda #$00
+        tax
+loop3   sta $0400,x
+        inx
+        bne loop3
+loop2   lda $02
+        ldx #$00
+loop1   sta $2000,x
+        clc
+        adc #$01
+        dex
+        bne loop1
+        inc $02
+        jmp loop2

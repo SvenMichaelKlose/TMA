@@ -1,0 +1,29 @@
+; *** Blinkender Bildschirm/flashing screen ***
+
+        sys init
+
+video = $0400
+variable = $fb
+
+init    lda #<video     ;Die Adresse des Videospeichers nach
+        sta variable    ;`Variable'
+        lda #>video
+        sta variable+1
+        
+        ldx #4          ;Langsamer ZÑhler 
+        ldy #0          ;Schneller ZÑhler (4*256 DurchgÑnge)
+loop    lda (variable),y;Byte aus der Adresse die in `Variable' steht holen
+        eor #$80         ;Byte invertieren
+        sta (variable),y;Byte wieder zurÅckschreiben
+        dey             ;Y dekrementieren
+        bne loop        ;wiederholen, wenn Y nicht 0 ist
+        inc variable+1  ;Highbyte von `Variable' erhîhen
+        dex             ;X dekrementieren
+        bne loop        ;wiederholen, wenn X nicht 0 ist
+
+warteschleife
+        dey
+        bne warteschleife
+        dex
+        bne warteschleife
+        jmp init

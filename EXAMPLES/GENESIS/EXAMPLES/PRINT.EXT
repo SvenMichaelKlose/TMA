@@ -1,0 +1,17 @@
+; *******************************************************
+; *** Ausgeben  einer Zeichenkette auf dem Bildschirm ***
+; *******************************************************
+print   stx printadr+1
+        sty printadr+2
+        ldx #0
+printadr
+        lda -1,x
+        beq printend
+        jsr chrout
+        inc printadr+1
+        bne printadr
+        inc printadr+2
+        jmp printadr
+
+printend
+        rts

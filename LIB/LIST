@@ -1,0 +1,43 @@
+
+BRESCIRC INC         2,342 11-09-95   9:28p Bresenham circle function
+BRESLINE INC         2,110 11-01-95  12:11a Bresenham line function
+DISK     INC         3,253 02-10-96   9:25p command line parser & disk handler 
+DMA      INC         3,319 09-05-96   3:25p DMA accessing routines
+DMS      INC        18,390 09-19-96  11:49p Digital sound mixing
+                                            8/16 bit
+                                            mono/stereo/stereo surround
+                                            256 channels
+DOSERRGE INC         3,536 03-13-96  12:49a DOS error handler German
+DOSERRUK INC         2,833 03-11-96  12:37a DOS error handler English
+FADE     INC         2,104 07-26-96   1:30p Fade routines
+FLAMES   INC         2,617 03-08-95   3:00p Flame FX
+FREQ     INC         1,016 05-01-95   6:35p Note frequencies
+GETSVGA  INC         2,402 09-08-95   1:51p Detects variouse SVGA adaptors
+INTERNAL INC         4,785 09-14-96   1:27p Internal speaker player
+LINES256 BAS           172 09-12-94   5:29p Mode 13h addrs
+LINES256 INC         1,642 09-12-94   5:29p
+LOADBMP  INC         1,218 04-20-95   4:01p BMP loader
+LOADFILE INC         1,049 04-20-95   2:36p Loads file to RAM
+LOADPCX  INC         2,622 01-09-80   7:01p PCX loader
+LOADSMLL INC           458 04-20-95   2:38p Loads files <=64k
+MEMORY   INC         6,617 07-19-96   4:32p Unreal mode engine
+MICROWAV INC         6,112 09-10-95  11:05a QBASIC music player (multichannel)
+MODEX    INC         1,211 09-16-95   1:17p Switches to Mode X
+MODPLAY  INC        40,120 09-19-96   8:11p MOD player
+OAK      INC         2,362 04-11-96   1:19a Oak Mozart 16 pro player
+PAS      INC                                PAS [+/16] player
+PIC      INC         1,432 09-18-96   8:50p PIC accessing routines
+PRINTWRD INC           364 04-09-96  10:36p Prints word to screen
+RETRACE  INC           191 04-20-95   3:20p Waits for vertical retrace
+S3MADLIB INC         7,191 10-01-39   3:09p S3M Adlib player
+SAVEFILE INC           923 05-24-95  11:38p Saves RAM to file
+SBLASTER INC        12,613 09-16-96  12:22p SoundBlaster series player
+SCROLLX  INC        12,622 02-10-96   9:07p Mode X scrolling routines
+SETTXT43 INC           325 04-23-95  12:53p Switches to 80*43 chars
+SOUND    INC         4,284 01-20-95   1:21p Internal speaker WAV player
+SPRITEX  INC         3,075 01-02-80   1:03a Mode X sprite routines
+SQRZOOM  INC         4,415 01-01-80  12:29a Mode 13h zoomer
+VESA     INC         5,143 04-06-96   2:49p VESA interface
+WSS      INC        10,799 09-18-96   5:07p Windows sound system player
+YPACK    INC         3,679 09-20-94  12:02a Easy Ypacker
+

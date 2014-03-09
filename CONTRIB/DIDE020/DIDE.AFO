@@ -1,0 +1,243 @@
+
+
+
+                         Dynamic IDE Version x.x.x
+                       Copyright (c) 1998  H.Gehrke
+                           All rights reserved.
+
+
+
+   Contents
+
+%~CONTENTS
+
+
+
+
+%%0. Warning: DO NOT read this
+===============================================================================
+
+    Warning, this documentation has been written to test the documentation
+compiler Aform. So, DO NOT read this shit except legal stuff & disclaimer.
+
+
+
+%%1. %!What is this?!%
+===============================================================================
+
+    DIDE is an %!IDE!% (Integrated Development Environment) especially designed
+for the DASM macro assembler. DASM is written by Sven Klose.
+
+
+
+%%2. %!Legal stuff!%
+===============================================================================
+
+    I, the author, Henrik Gehrke, reserve all %!rights!% to DIDE, which is
+%!copyright!%ed Freeware. This means: Do whatever you want with this version
+(future versions may have other legal status) of this software, use it, 
+modify it, delete it, eat it, distribute it, even sell it... All I ask,
+if you use it, is sending me a postcard.
+
+
+
+%%3. %!Disclaimer!%
+===============================================================================
+
+    The author is responsible and accountable for absolutely nothing
+whatsoever.
+    The author shall not be liable for any %!damages!% resulting from the use
+of this software, including but not limited to, loss of profit, data
+or use of the software, or indirect, special, incidental or consequential
+damages or other similar claims, even if the author has been specifically
+advised of the possibility of such damages.
+
+
+
+%%4. %!Support!%
+===============================================================================
+
+    There is no support, sorry.
+
+
+
+%%5. %!Preface!%
+===============================================================================
+
+%%5.1 %!Files!%
+---------
+
+%%5.1.1 %!Files included!%
+--------------------
+
+    DIDE.EXE        %!Main program!%
+    RTM.EXE         %!Runtime manager!%
+    DPMI16BI.OVL    %!DPMI server!%
+    DIDE.DOC        This file
+    EDITOR.DOC      %!Editor key assignment table!%
+    AFORM.EXE       Undocumented %!documentation compiler!%
+    DIDE.AFO        Example for %!AFORM!%
+    
+
+
+%%5.1.2 %!Files created!%
+-------------------
+
+    DIDE.CFG        %!Configuration file!%
+    *.PRD           %!Project configuration file!%
+    DIDE.PAL        Saved %!color setup!% (it's loaded and used if it exists)
+
+
+
+%%5.2 %!System requirements!%
+-----------------------
+
+    CPU: 80486DX4-100 (P133 recommended)
+    GFX: EGA/VGA
+    RAM: 2MB (4MB recommended)
+    DOS: MS-DOS 4.00+ 
+
+
+
+%%5.3 %!Command line parameters!%
+---------------------------
+
+    %!Syntax!%: DIDE [file1] [[file2] ...]
+
+    Filenames may contain wildcards.
+
+
+
+%%5.4 %!Environment variables!%
+-------------------------
+
+    There are two environment variables that are required for DIDE to
+work properly.
+
+    The environment variable %!COMSPEC!% must point to %!COMMAND.COM!%.
+
+    The second one is the environment variable %!DPMIMEM!%. By default, the
+%!DPMI interface!% allocates all available %!extended memory!% for its own use.
+If you don't want all of the available memory to be taken by the DPMI 
+kernel, you can set DPMIMEM to specify the maximum amount of memory to
+use. The variable uses this syntax:
+  
+    SET DPMIMEM=MAXMEM nnnn
+   
+where nnnn is the amount of memory in kilobytes.
+  
+    For example, if you have a system with 4MB and want the DPMI kernel
+to use only 2MB of it, leaving the other 2MB alone, the DPMIMEM variable
+would be set as follows:
+  
+    SET DPMIMEM=MAXMEM 2048
+
+    If you work with DASM, you must set DPMIMEM to leave at least 512k alone
+because DASM needs a small amount of XMS memory to work.
+
+
+
+%%5.5 %!Limits!%
+----------
+
+    Max. open editor windows:   29
+    Max. source file size:     64k  
+
+
+
+
+%%6. %!Setup!%
+===============================================================================
+
+%%6.1 %!Placing files!%
+-----------------
+
+    Make sure, all the .%!doc files!% are placed in the directory specified
+in Options/Directories/Help directory.
+
+
+
+%%6.2 %!Assembler setup!%
+-------------------
+
+    Enter the full path to DASM.COM in Options/Assembler/Path to
+assembler, for example C:\DASM\DASM.COM.
+
+
+
+%%6.3 %!Debugger setup!%
+------------------
+
+    Enter the full path to your preferred %!debugger!% in Options/Debugger/
+Path to debugger, for example C:\TD\BIN\TD.EXE.
+
+
+
+%%6.4 %!Directories setup!%
+---------------------
+
+    Options/Directories/EXE/COM directory and Options/Directories/Include
+directory are not used yet.
+
+
+
+%%7. %!Working with DIDE!%
+===============================================================================
+
+%%7.1 %!Assembling a program!%
+------------------------
+
+    1. Press F3 and open SRC\DATALAND.DSM.
+    2. Press F9 or ALT-F9.
+
+
+
+%%7.2 %!Running a program!%
+---------------------
+
+    1. Press F3 and open SRC\DATALAND.DSM.
+    2. Press CTRL-F9.
+
+
+
+%%7.3 %!Debugging a program!%
+-----------------------
+
+    1. Press F3 and open SRC\DATALAND.DSM.
+    2. Press F8.
+
+
+
+%%7.4 %!Compiling a documentation!%
+-----------------------------
+
+    1. Press F3 and open DOC\DIDE.AFO.
+    2. Press CTRL-F7.
+
+
+
+%%7.5 Using %!project management!%
+----------------------------
+
+    1. Select Project/New
+    2. Add files to project.
+
+    The %!project configuration!% will automatically be loaded next time
+you start DIDE provided Options/Environment/Startup/Load .%!PRD file!% is
+enabled.
+
+
+
+%%8. %!Author!%
+===============================================================================
+
+    Henrik Gehrke
+    Teutoburger Str. 32
+    33604 Bielefeld
+
+
+
+
+   Index
+
+%~INDEX

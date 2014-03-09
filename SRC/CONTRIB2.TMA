@@ -1,0 +1,56 @@
+ If you want to contribute to TMA please check the following list for projects
+you may be interested in. Also read CODESTYL.TXT
+ If you're sure, you want to contribute, send a mail to sven@devcon.net to
+get information about the project parts. Someone may have already started the
+part you want to do, even if it's not displayed on the TMA homepage
+(http://www.devcon.net/~sven)
+
+    The goals
+
+	First of all A386 compatibility is apprecciated. There're lots
+	of things that should be implemented for that reason. But also
+	TASM compatibility is wanted.
+
+	TMA will run in real and protected mode and may even switch between
+	them at run-time. It will also offer basic IO functions to work
+	properly without any operating system but with C or C++ modules.
+	It would be cool to trace a system boot.... B-P
+
+	To make sessions more comfortable, a graphical environment for C++
+	is in work that runs in standard VGA mode. It allows basic windows
+	programming and needs about 25k RAM...well, it grows...
+
+    What next?
+
+	This were the dreams, here're the facts: TMA was never intended to
+	become public before it finally did and so the code looks like.
+	My work is now to make proper modules out of the code, make the core
+	platform independend and make the sources more readable. But the most
+	important thing on TMA is that you HAVE to use it if you want to
+	contribute to it and that is not comfortable:
+
+    Assembler
+
+	There's no proper error output.
+	There's no OBJ file generation.
+	There's no proper documentation.
+	This'll change because I'm already working on it.
+
+	- size of data labels should define transfer sizes.
+	- Finish directive handlers in DIRECT.INC
+	- CONSTANT.INC needs to be rewritten.
+	- Implement MMX instructions/Floating-point-instructions
+	- label_update should be used to reduce searches.
+	TMA stores the labels as they're defined. This means that in
+	the second pass you could use a pointer to the next label instead
+	of searching the table.
+
+	- Debug info generation for debuggers.
+	Could be a nice idea as long as there's no own debugger.
+
+Documentation
+
+	The documentation on TMA is also a reference for contributors.
+	Things that aren't implemented are marked as such. The manual
+	must describe all features of A86/A386 and TASM.
+

@@ -1,0 +1,43 @@
+; *** Include file for Kernal jumps (Commodore BASIC V1.0)
+; *** Include-Datei fÅr Kernalaufrufe (Commodore BASIC V1.0)
+
+acptr   =$ffa5  ; input byte from serial port
+chkin   =$ffc6  ; open channel for input
+chkout  =$ffc9  ; open channel for output
+chrin   =$ffcf  ; input character from channel
+chrout  =$ffd2  ; output character to channel
+bsout   =$ffd2  ; (often used,too)
+ciout   =$ffa8  ; output byte to serial port
+cint    =$ff81  ; initialize screen editor
+clall   =$ffe7  ; close all channels and files
+close   =$ffc3  ; close a specified logical file
+clrchn  =$ffcc  ; close input and output channels
+getin   =$ffe4  ; get character from keyboard buffer
+iobase  =$fff3  ; returns base adress if I/O devices
+listen  =$ffb1  ; command devices on the serial bus to listen
+load    =$ffd5  ; load RAM from a device
+membot  =$ff9c  ; read/set the bottom of memory
+memtop  =$ff99  ; read/set the top of memory
+open    =$ffc0  ; open a logical file
+plot    =$fff0  ; read set cursor position
+ramtas  =$ff87  ; initialize RAM, allocate tape buffer, set screen to $400
+rdtim   =$ffde  ; read real time clock
+readst  =$ffb7  ; read I/O status word
+restor  =$ff8a  ; restore I/O default vectors
+save    =$ffd8  ; save RAM to device
+scnkey  =$ff9f  ; scan keyboard
+screen  =$ffed  ; return X/Y organization of screen
+second  =$ff93  ; send secondary adress after LISTEN
+setlfs  =$ffba  ; set logical first and second adress
+setmsg  =$ff90  ; control KERNAL messages
+setnam  =$ffbd  ; set file name
+settim  =$ffdb  ; set real time clock
+settmo  =$ffa2  ; set timeout on serial bus
+stop    =$ffe1  ; scan stop key
+talk    =$ffb4  ; command serial bus device to talk
+tksa    =$ff96  ; send secondary adress after TALK
+udtim   =$ffea  ; increment real time clock
+unlsn   =$ffae  ; command serial bus to UNLISTEN
+untlk   =$ffab  ; command serial bus to UNTALK
+vector  =$ff8d  ; read/set vectored I/O
+

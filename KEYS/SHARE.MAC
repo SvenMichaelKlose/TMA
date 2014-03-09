@@ -1,0 +1,15 @@
+;Fingerprint
+regnum="sk"
+	;DL contains d-bit when assembling MOVes.
+keymac	macro
+	mov cl,b[codeptr]	;get d-Bit
+	and cl,15
+	mov dx,regnum
+	shr dx,cl
+	and dl,1
+	cmp dl,b[dbit]		;ok?
+	je >v1
+	xchg al,ah		;No, exchange operand order.
+v1:     #em
+
+

@@ -1,0 +1,16 @@
+black   = 0
+white   = 1
+dkred   = 2
+ltblue  = 3
+cyan    = 4
+dkgreen = 5
+dkblue  = 6
+yellow  = 7
+ltbrown = 8
+dkbrown = 9
+ltred   = 10
+dkgrey  = 11
+mdgrey  = 12
+ltgreen = 13
+ltblue  = 14
+ltgrey  = 15

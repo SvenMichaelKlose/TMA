@@ -1,0 +1,102 @@
+; Register des C64-VIC
+; Registers of the C64 video interface chip
+
+v       =$d000
+spr0x   =$d000
+spr0y   =$d001
+spr1x   =$d002
+spr1y   =$d003
+spr2x   =$d004
+spr2y   =$d005
+spr3x   =$d006
+spr3y   =$d007
+spr4x   =$d008
+spr4y   =$d009
+spr5x   =$d00a
+spr5y   =$d00b
+spr6x   =$d00c
+spr6y   =$d00d
+spr7x   =$d00e
+spr7y   =$d00f
+sprxmsb =$d010
+
+scrolly =$d011  ; Bit 3-0
+lines   =$d011
+M_lines =8
+blank   =$d011
+M_blank =16
+hires   =$d011
+M_hires =32
+backcolor=$d011
+M_backcolor=64
+; Text :
+; Benutzt nur 64 Zeichen und die Multicolor-Farben
+
+rastermsb=$d011
+M_rastermsb=128
+
+raster  =$d012
+lightx  =$d013
+lighty  =$d014
+spriteOn=$d015
+
+scrollx =$d016
+columns =$d016
+m_columns=8
+multicolor=$d016
+m_multicolor=16
+resetVIC=$d016
+m_resetVIC=32
+
+SprMagnY=$d017
+
+startChars=$d018        ;Bit 0 wird ignoeriert
+startHiRes=$d018        ;Bit 3-1 Zeichensatz in 2K-SChritten
+                        ;Bit 3   Hiresscreen 0 8192
+startText=$d018         ;Bit 7-4 Textposition in K-Schritten
+                        ;Bit 7-4 ColorRAM im Hires Modus
+
+; CIA $DD00 Bit 0-1 Startadress VIC 11=0k <-> 00=48k
+; Triple Buffering benutzen !
+colorram=$d800
+
+RasterFlag=$d019
+m_rasterflag=1
+SprBacFlag=$d019
+m_sprbacFlag=2
+SprSprFlag=$d019
+m_sprsprFlag=4
+LightFlag=$d019
+m_lightflag=8
+IntFlag=$d019
+
+RasterMask=$d01a
+m_rastermask=1
+SprBacMask=$d01a
+m_sprbacmask=2
+SprSprMask=$d01a
+m_SprSprmask=4
+lightmask=$d01a
+m_lightmask=8
+IntMask=$d01a
+
+SprBacPriority=$d01b
+SprMulticolor=$d01c
+SprMagnX=$d01d
+SprSprCol=$d01e
+SprBacCol=$d01f
+borderColor=$d020
+BackColor0=$d021
+BackColor1=$d022
+BackColor2=$d023
+BackColor3=$d024
+SpriteCol0=$d025
+SpriteCol1=$d026
+Sprite0col=$d027
+Sprite1col=$d028
+Sprite2col=$d029
+Sprite3col=$d02a
+Sprite4col=$d02b
+Sprite5col=$d02c
+Sprite6col=$d02d
+Sprite7col=$d02e

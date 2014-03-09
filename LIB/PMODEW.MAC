@@ -1,0 +1,362 @@
+;Programming Protected Mode (PMODE/W)
+;API macros
+;(c)1997 Sven Klose
+
+#if _PMODEW_AUTOMODEL_
+	.model large
+	code segment flat
+	data segment flat
+#endif
+
+; Registerstruktur
+pm_regstruc struc
+	redi	dd ?
+	resi	dd ?
+	rebp	dd ?
+		dd ?
+	rebx	dd ?
+	redx	dd ?
+	recx	dd ?
+	reax	dd ?
+	rflags	dw ?
+	res	dw ?
+	rds	dw ?
+	rfs	dw ?
+	rgs	dw ?
+	rip	dw ?
+	rcs	dw ?
+	rsp	dw ?	;Sind diese Werte=0, so stellt der Host einen Stack
+	rss	dw ?	;zur Verfgung.
+	ends
+
+; >>>
+pm_allocdesc macro selectors
+	xor ax,ax
+	mov cx,selectors
+	int 31h
+	endm		;ax: selector
+
+pm_freedesc macro selector
+	mov ax,1
+	mov bx,selector
+	int 31h
+	endm
+
+pm_seg2desc macro realseg
+	mov ax,2
+	mov bx,realseg
+	int 31h
+	endm		;ax
+
+pm_getseginc macro
+	mov ax,3
+	int 31h
+	endm		;ax: increment value
+
+pm_getsegbase macro selector
+	mov ax,6
+	mov bx,selector
+	int 31h
+	endm		;cx:dx linear addr
+
+pm_split32 macro co32,regh,regl
+#if #reg32(co32)
+	push co32
+	pop regl,regh
+#elseif #mem32(co32)
+	mov regl,co32
+	mov regh,[co32+2]
+#elseif #const32(co32)
+	mov cx,co32 shr 16
+	mov dx,co32 and (64k-1)
+	#endif
+	endm
+
+pm_lin macro l
+	pm_split32 l,cx,dx
+	endm
+
+pm_setsegbase macro selector,adr32
+	mov ax,7
+	mov bx,selector
+	pm_lin adr32
+	int 31h
+	endm
+
+pm_setseglmt macro selector,limit32
+	mov ax,8
+	mov bx,selector
+	pm_lin limit32
+	int 31h
+	endm
+
+pm_setdescrights macro selector,rights
+	mov ax,9
+	mov bx,selector
+	mov cx,rights
+	int 31h
+	endm
+
+pr_g	= bit 15+160
+pr_bd	= bit 14+160
+pr_dpl	= bit 5
+pr_cd	= bit 3
+pr_ec	= bit 2
+pr_rw	= bit 1
+pr_a	= bit 0
+
+
+pm_cralias macro selector
+	mov ax,0ah
+	mov bx,selector
+	int 31h
+	endm	;ax
+
+pm_getdesc macro selector,destseg,destadr32
+	mov ax,0bh
+	mov bx,selector
+	mov es,destseg
+	mov edi,destadr32
+	int 31h
+	endm
+
+pm_setdesc macro selector,srcseg,srcadr32
+	mov ax,0ch
+	mov bx,selector
+	mov es,srcseg
+	mov edi,srcadr32
+	int 31h
+	endm
+
+; >>>
+pm_allocdos macro paragraphs
+	mov ax,100h
+	mov bx,paragraphs
+	int 31h
+	endm	;ax seg dx desc bx=largest block
+
+pm_freedos macro desc
+	mov ax,101h
+	mov bx,desc
+	int 31h
+	endm
+
+pm_chgdos macro paragraphs,desc
+	mov ax,102h
+	mov bx,paragraphs
+	mov dx,desc
+	int 31h
+	endm
+
+; >>>
+pm_getrealint macro intr
+	mov ax,200h
+	mov bl,intr
+	int 31h
+	endm	;cx:dx seg:ofs
+
+
+pm_so	macro s,o
+	mov cx,s
+	mov dx,o
+	endm
+
+pm_setrealint macro intr,s,o
+	mov ax,201h
+	mov bl,intr
+	pm_so s,o
+	int 31h
+	endm
+
+
+pm_getpintvec macro intr
+	mov ax,204h
+	mov bx,intr
+	int 31h
+	endm
+
+pm_setpintvec macro intr,s,o
+	mov ax,205h
+	mov bl,intr
+	mov cx,s
+	mov edx,o
+	int 31h
+	endm
+
+; >>>
+pm_simrmint macro intr,stacksz,rdss,rdso
+	mov ax,300h
+	xor bx,bx
+	mov bl,intr
+	mov cx,stacksz
+	mov es,rdss
+	mov edi,rdso
+	int 31h
+	endm
+
+pm_callrmfar macro stacksz,rdss,rdso
+	mov ax,301h
+	xor bh,bh
+	mov cx,stacksz
+	mov es,rdss
+	mov edi,rdso
+	int 31h
+	endm
+
+pm_callrmiret macro stacksize,seg_regstruc,ofs_regstruc
+	mov ax,302h
+	xor bh,bh
+	mov cx,stacksize
+	mov es,seg_regstruc
+	mov edi,ofs_regstruc
+	int 31h
+	endm
+
+pm_allocrmcallbackadr macro seg_pmproc,ofs_pmproc, \
+	seg_buffer,ofs_buffer	;32-Byte Puffer
+	mov ax,303h
+	mov esi,ofs_pmproc
+	mov edi,ofs_buffer
+	mov es,seg_buffer
+	mov ds,seg_pmproc
+	int 31h
+	endm
+
+pm_freermcallbackadr macro s,o
+	mov ax,304h
+	pm_so s,o
+	int 31h
+	endm
+
+pm_savestate macro
+	mov ax,305h
+	int 31h
+	endm
+;    AX     = size of buffer in bytes required to save state
+;    BX:CX  = segment:offset of real mode routine used to save/restore state
+;    SI:EDI = selector:offset of protected mode routine used to save/restore
+;	      state
+
+pm_getrawmodeswitchadr macro
+	mov ax,306h
+	int 31h
+	endm
+;    BX:CX  = segment:offset of real to protected mode switch procedure
+;    SI:EDI = selector:offset of protected to real mode switch procedure
+
+; >>>
+pm_getversion macro
+	mov ax,400h
+	int 31h
+	endm
+	
+;    AH     = DPMI major version as a binary number (VCPI/XMS/raw returns 00h)
+;    AL     = DPMI minor version as a binary number (VCPI/XMS/raw returns 5ah)
+;    BX     = flags:
+;	      Bits    Significance
+;	      0       0 = host is 16bit (PMODE/W never runs under one of these)
+;		      1 = host is 32bit
+;	      1       0 = CPU returned to V86 mode for reflected interrupts
+;		      1 = CPU returned to real mode for reflected interrupts
+;	      2       0 = virtual memory not supported
+;		      1 = virtual memory supported
+;	      3-15    reserved
+;    CL     = processor type:
+;	      03h = 80386
+;	      04h = 80486
+;	      05h = 80586
+;	      06h-ffh = reserved
+;    DH     = current value of master PIC base interrupt (low 8 IRQs)
+;    DL     = current value of slave PIC base interrupt (high 8 IRQs)
+
+; >>>
+pm_getfreememinfo macro seg48,ofs48 ;48 Byte Puffer
+	mov ax,500h
+	mov es,seg48
+	mov edi,ofs48
+	int 31h
+	endm
+;    carry flag clear
+;    buffer is filled with the following information:
+;
+;      Offset  Length  Contents
+;      00h     4       Largest available free block in bytes
+;      04h     2ch     Other fields only supplied by DPMI
+
+pm_allocmem macro bytesize
+	mov ax,501h
+	pm_split32 bytesize,bx,cx
+	int 31h
+	endm
+;    BX:CX  = linear address of allocated memory block
+;    SI:DI  = memory block handle (used to resize and free block)
+
+
+pm_freemem macro handle
+	mov ax,502h
+	pm_split32 handle,si,di
+	int 31h
+	endm
+;  SI:DI  = memory block handle
+
+pm_resizemem macro newsize,handle
+	mov ax,503h
+	pm_split32 newsize,bx,cx
+	pm_split32 handle,si,di
+	int 31h
+	endm
+;    BX:CX  = new linear address of memory block
+;    SI:DI  = new memory block handle
+
+; >>>
+pm_physadrmapping macro s,o,bytesize
+	mov ax,800h
+	mov bx,s
+	mov cx,o
+	pm_split32 bytesize,si,di
+	int 31h
+	endm
+;    BX:CX  = linear address that can be used to access the physical memory
+
+pm_freephsymap macro linear
+	mov ax,801h
+	pm_split32 linear,bx,cx
+	int 31h
+	endm
+
+; >>>
+pm_disablevintstate macro
+	mov ax,900h
+	int 31h
+	endm
+;    AL     = 0 if virtual interrupts were previously disabled
+;    AL     = 1 if virtual interrupts were previously enabled
+
+pm_enablevintstate macro
+	mov ax,901h
+	int 31h
+	endm
+;    AL     = 0 if virtual interrupts were previously disabled
+;    AL     = 1 if virtual interrupts were previously enabled
+
+pm_getvintstate macro
+	mov ax,902h
+	int 31h
+	endm
+;    AL     = 0 if virtual interrupts are disabled
+;    AL     = 1 if virtual interrupts are enabled
+
+; >>>
+pm_getextinfo macro
+	mov ax,0eeffh
+	int 31h
+	endm
+;    carry flag clear
+;    EAX    = 'PMDW' (504D4457h)
+;    ES:EBX -> ASCIIZ copyright string
+;    CH     = protected mode system type (0=raw, 1=XMS, 2=VCPI, 3=DPMI)
+;    CL     = processor type (3=386, 4=486, 5=586)
+;    DH     = extender MAJOR version (binary)
+;    DL     = extender MINOR version (binary)
+
+;EOF

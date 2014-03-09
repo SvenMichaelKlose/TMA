@@ -1,0 +1,1 @@
+..\..\bin\tma mandel.asm

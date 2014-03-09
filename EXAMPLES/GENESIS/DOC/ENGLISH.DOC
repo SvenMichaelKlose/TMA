@@ -1,0 +1,657 @@
+
+
+
+
+
+	     Genesis 65XX macro and cross assembler Version 2.2
+		   &  Genesis 65XX resourcer alpha version
+		(c) 1994-96 by Sven Michael Klose, Bielefeld.
+
+This is free software and a part of the TMA project. Please read COPYING
+for details.
+
+FTP:	copei.devcon.net/pub/tma
+Emai:	sven@devcon.net
+
+
+쩡컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컫컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+� Contents			     �
+읕컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴켸
+
+ Introduction :
+ What is Genesis ? ................................................... 1-0
+ Assembing the first source .......................................... 1-1
+ Executing the assembled program ..................................... 1-2
+ Transfer to other platforms ......................................... 1-3
+
+ Programming Genesis :
+ Syntax of the assembler ............................................. 2-0
+ Syntax of the 65XX mnemonics ........................................ 2-1
+ Labels .............................................................. 2-2
+ Mnemonics ........................................................... 2-3
+ Operands ............................................................ 2-4
+ Byte/word syntax .................................................... 2-4-1
+ Arithmetic operations ............................................... 2-4-2
+ Comments ............................................................ 2-5
+ Directives .......................................................... 2-6
+ Error messages ...................................................... 3-0
+
+ The 65XX CPU:
+ The 65XX instruction set in alphabetical order ................. Appendix A
+ Mnemonics of the undocumented instructions ..................... Appendix B
+ Opcodes of the undocumented instructions ....................... Appendix C
+ History of Genesis ............................................. Appendix D
+
+What is Genesis ?
+==================
+
+Genesis is a cross assembler for 65x0 CPUs with an amazing turn of speed.
+It is able to produce binary and tape files for the "real C64 emulator".
+Now it's able to assemble undocumented commands even in the shareware
+version.
+For modular programming Genesis knows include files.
+Macros are available only in the registered version.
+
+
+1.1 Introduction
+========================
+
+Start a trial run with the delivered source file :
+
+GENESIS GAME.A65 GAME.BIN
+
+
+1.2 How the 눃┬ can I use the code then ?
+==========================================================
+
+No problem ! But you should own the *real* C64-Emulator written by
+Miha Peternel and it should be installed on your hard disk ...
+The PC64 emulator doesn't handle T64 files but you can use raw files.
+
+Type in
+
+GENESIS GAME.A65 c:\C64_EMU\GAME.T64
+or 
+GENESIS GAME.A65 C:\C64_EMU\GAME.BIN for PC64.
+
+Perhaps you'll have to modify the directory name.
+Genesis now assembles the code and writes it to disk
+as a tape file for the emulator.
+
+Now start the emulator und type LOAD without the RETURN-Key 
+then press the F9-key and choose
+
+GENESIS 2.2 CREATED TAPE 
+ and
+GENESIS 2.2 FILE
+
+Finally type the RUN command. Bad luck ...
+
+
+1.3 Other ways of using Genesis 6510 
+=====================================
+
+To transfer your assembled programs easily use one of your
+serial or parallel ports of your personal computer.
+The handling of Genesis is easy in this way, too.
+Type in
+
+GENESIS GAME.A65 COM1
+
+to let Genesis put out the assembled code to COM1.
+Anyway, you'll have to link your PC with your good, ol' C64
+and you'll have to write a C64 program which receives the data
+and writes it to memory or to disk. FIXME.
+
+----------------------------------------------------------------------------
+
+
+2.2 Syntax of 6510 mnemonics
+============================
+
+Genesis accepts more or less standard syntax.
+The structure is always the same:
+
+Label:	Mnemonic:  Operand:    Comment:
+------------------------------------------------------------------
+label	lda	   #$00        ; load accumulator with 0
+
+
+
+
+2.2 Labels
+==========
+
+A label always begins with a letter and ends with a space char.
+Never use chars which are reserved for operands.
+For example :
+
+WriteChar-1
+Hello$
+A&bs	 will force error messages.
+
+If you can define many labels with ONE adress. For example:
+
+	     pointer xpos overbyte BYT 0
+
+if you want to save memory.
+
+
+2.3 Mnemonics
+=============
+
+This version accepts standard mnemonics and undocumented mnemonics,
+adressing modes, all mnemonics of the 65xx series and it contains a
+documentation file with an exact list of their opcodes and timing.
+
+
+2.4 Operands
+============
+
+Following adressing modes are legal :
+
+Adressing mode: 	Example:
+---------------------------------
+Implied.		ASL
+Immediate		LDA #$ff
+Zero paged		LDA $12
+Zero paged,X		LDA $12,X
+Absolute		LDA $4232
+Absolute,X		LDA $4232,X
+Absolute,Y		LDA $4232,Y
+Indirect indexed	LDA ($02,X)
+Indexed indirect	LDA ($02),Y
+Indirect (for jumps)	(START)
+
+The most of the 65xx-instrucions don't work with all
+adressing modes. But Genesis will tell you if the time has come.
+
+
+2.4.1 Byte/Word Syntax
+======================
+
+Genesis accepts following syntax:
+
+Definition		Example:
+-----------------------------------
+decimal 		LDA #1
+hexadecimal		LDA #$a4
+binary			AND #%01001001
+octal			ORA #!732
+character		LDY #"a"
+	or		LDA #"""
+	or even 	STA "21" ;the first char defines the high byte
+
+
+If you only want to use the higher or the lower byte of a word
+just type following signs before typing a constant or label :
+'>' for the higher byte.
+'<' for the lower byte.
+
+Examples:		LDA <screen
+			STA screenpointer1
+			LDA >screen
+			STA screenpointer2
+			LDY #0
+			LDA (screenpointer),Y
+
+
+2.4.2 arithmethic operands ...
+==============================
+
+Genesis accepts following operands to make programmer's live easier :
+
+Defintion	 Example
+==========================
+add		 label + 123
+subtract	 label - 123
+multiply	 label * 16
+divide		 label / 16
+AND		 label & $ff
+OR		 label | $%1010000000000000
+
+And now a weird example:
+
+label		lda <screenposition+!0345-willy|1211/2*5&%01110110101|2
+
+
+2.5 Comments
+===============
+
+After a comment flag (";") you're able to write any kind of text. 
+And now for example (yes, I'm a lazy one ):
+
+hallo	sta $d018	; writes accumulator to a VIC register
+
+
+2.6 Directives
+===============
+
+Yes, Genesis understands some :
+
+ORG <word>[,<word>]	; Defines the actual code position.
+			; The first ORG defines the starting adress
+			; of the code, the last instructions after
+			; the last ORG defines the ending position.
+			; With the second operand you can assemble
+			; code for another position <word>.
+ORG ,<word>		; <- Leaves the real position.
+
+label EQU <word> or	; Defines a label with a word. You can also use
+label =   <word>	; it for immediate adressed instructions if
+			; it has got byte size.
+			; flag=255
+			; LDA #flag
+
+BYT <byte1>,<byte2>,... ; Writes byte(s) to actual position.
+
+WOR <word1>,<word2>,... ; Does the same with words.
+
+ASC "Text"		; Does the same with ASCII texts
+ASC "Text",<value>	; You can only use byte values with the ASC-Kommand
+
+LST label		; Prints definition of label to screen at
+			; assembly.
+
+SYS label		; Creates a the line "0 SYS <label's def> for a
+			; CBM-BASIC program.
+			; This command also includes an ORG $801.
+			; The following code starts at $80f
+
+EXT "filename.asm"	; Includes A65-files.
+			; EXT commands in include-files work, too.
+
+EXB filename.bin	; Includes binary files to your code.
+
+Following directives only exist in the full version :
+
+macroname MAC BYT,WOR,WOR   ; Defines a macro
+.EM			    ; 
+label MAC macroname	    ; Calls macro
+
+.IF/ELS/END/NOT/OR/AND	    ; Comparisons for macro structure
+			    ; at assembly only.
+
+
+3 Error messages
+======================
+
+... explain themselves.
+The full version inserts error messages to your source code and erases
+them if the errors have been removed.
+This shareware version just prints error messages to your screen.
+
+Appendix A
+==========
+
+6510-CPU instruction set in alphabetic order
+---------------------------------------------
+
+ADC	Add memory to accumulator with carry flag
+AND	"AND" memory with accumulator
+ASL	Shift left one bit (memory or accumulator)
+
+BCC	Branch on carry clear
+BCS	Branch on carry set
+BEQ	Branch on result zero
+BIT	Test bits in memory with accumulator
+BMI	Branch on result minus
+BNE	Branch on result not uero
+BPL	Branch on result plus
+BRK	Force break
+BVC	Branch on overflow clear
+BVS	Branch on overflow set
+
+CLC	Clear carry flag
+CLD	Clear decimal mode
+CLI	Clear interrupt disable bit
+CLV	Clear overflow flag
+CMP	Compare memory and accumulator
+CPX	Compare memory and index X
+CPY	Compare memory and index Y
+
+DEC	Decrement memory or accu by one
+DEX	Decrement index X by one
+DEY	Decrement index Y by one
+
+EOR	"exclusive-OR" memory with accumulator
+
+INC	Increment accu or memory by one
+INX	Increment index X by one
+INY	Increment index Y by one
+
+JMP	Jump to new location
+JSR	Jump to new location saving return adress
+
+LDA	Load accu with memory
+LDX	Load index X with memory
+LDY	Load index Y with memory
+LSR	Shift right one bit (memory or accumulator)
+
+NOP	No operation
+
+ORA	"OR" memory with accumulator
+
+PHA	Push accumulator on stack
+PHP	Push processor status on stack
+PLA	Pull accumulator from stack
+PLP	Pull processor status from stack
+
+ROL	Rotate one bit left (memory or accumulator)
+ROR	Rotate one bit right (memory or accumulator)
+RTI	Return from interrupt
+RTS	Return from subroutine
+
+SBC	Subtract memory from accumulator with carry flag
+SEC	Set carry flag
+SED	Set decimal mode
+SEI	Set interrupt disable flag
+STA	Store accumulator in memory
+STX	Store index X in memory
+STY	Store index Y in memory
+
+TAX	Transfer accumulator to index X
+TAY	Transfer accumulator to index Y
+TSX	Transfer stack pointer to index X
+TXA	Transfer Index X to accumulator
+TXS	Transfer Index X to stack pointer
+TYA	Transfer index Y to accumulator
+
+Appendix B
+==========
+
+Instruction adressing modes and related execution times in clock cycles :
+----------------------------------------------------------------------------
+	
+	Ac/Im	= accu/implied
+	It	= immediate
+	ZP	= zero page
+	ZX	= zero page indexed with X register
+	ZY	= zero page indexed with Y register
+	Ab	= absolute
+	AX	= absolute indexed with X register
+	AY	= absolute indexed with Y register
+	In	= indirect
+	IX	= indexed indirect with X register
+	IY	= indirect indexed with Y register
+
+		
+		Ac
+Instruction	Im It ZP ZX ZY Ab AX AY In IX IY 
+------------------------------------------------------------------------	       
+ADC		.  2  3  4  .  4  4* 4* .  6  5*
+AND		.  2  3  4  .  4  4* 4* .  6  5*
+ASL		2  .  5  6  .  6  7  .	.  .  .
+BCC		.  .  .  .  .  .  .  .	2# .  .
+BCS		.  .  .  .  .  .  .  .	2# .  .
+BEQ		.  .  .  .  .  .  .  .	2# .  .
+BIT		.  .  3  .  .  4  .  .	.  .  .
+BMI		.  .  .  .  .  .  .  .	2# .  .
+BNE		.  .  .  .  .  .  .  .	2# .  .
+BPL		.  .  .  .  .  .  .  .	2# .  .
+BRK		.  .  .  .  .  .  .  .	.  .  .
+BVC		.  .  .  .  .  .  .  .	2# .  .
+BVS		.  .  .  .  .  .  .  .	2# .  .
+CLC		2  .  .  .  .  .  .  .	.  .  .
+CLD		2  .  .  .  .  .  .  .	.  .  .
+CLI		2  .  .  .  .  .  .  .	.  .  .
+CLV		2  .  .  .  .  .  .  .	.  .  .
+* = Add one cycle if indexing across page boundary.
+# = Add one cycle if branch is taken and
+    add one additional if branching operation crosses page boundary.
+
+		
+		Ac
+Instruction	Im It ZP ZX ZY Ab AX AY In IX IY 
+------------------------------------------------------------------------	       
+CMP		.  2  3  4  .  4  4* 4* .  .  5*
+CPX		.  2  3  .  .  4  .  .	.  .  .
+CPY		.  2  3  .  .  4  .  .	.  .  .
+DEC		.  .  5  6  .  6  7  .	.  .  .
+DEX		2  .  .  .  .  .  .  .	.  .  .
+DEY		2  .  .  .  .  .  .  .	.  .  .
+EOR		.  2  3  4  .  4  4* 4* .  6  5*
+INC		.  .  5  6  .  6  7  .	.  .  .
+INX		2  .  .  .  .  .  .  .	.  .  .
+INY		2  .  .  .  .  .  .  .	.  .  .
+JMP		.  .  .  .  .  3  .  .	5  .  .
+JSR		.  .  .  .  .  6  .  .	.  .  .
+LDA		.  2  3  4  .  4  4* 4* .  6  5*
+LDX		.  2  3  .  4  4  .  4* .  .  .
+LDY		.  2  3  4  .  4  4* .	.  .  .
+LSR		2  .  5  6  .  6  7  .	.  .  .
+NOP		2  .  .  .  .  .  .  .	.  .  .
+ORA		.  2  3  4  .  4  4* 4* .  6  5*
+* = Add one cycle if indexing across page boundary.
+
+
+		Ac
+Instruction	Im It ZP ZX ZY Ab AX AY In IX IY 
+------------------------------------------------------------------------	       
+PHA		3  .  .  .  .  .  .  .	.  .  .
+PHP		3  .  .  .  .  .  .  .	.  .  .
+PLA		4  .  .  .  .  .  .  .	.  .  .
+PLP		4  .  .  .  .  .  .  .	.  .  .
+ROL		2  .  5  6  .  6  7  .	.  .  .
+ROR		2  .  5  6  .  6  7  .	.  .  .
+RTI		6  .  .  .  .  .  .  .	.  .  .
+RTS		6  .  .  .  .  .  .  .	.  .  .
+SBC		.  2  3  4  .  4  4* 4* .  6  5*
+SEC		2  .  .  .  .  .  .  .	.  .  .
+SED		2  .  .  .  .  .  .  .	.  .  .
+SEI		2  .  .  .  .  .  .  .	.  .  .
+STA		.  .  3  4  .  4  5  5	.  6  6
+STX		.  .  3  .  4  4  .  .	.  .  .
+STY		.  .  3  4  .  4  .  .	.  .  .
+* = Add one cycle if indexing across page boundary.
+
+		
+		Ac
+Instruction	Im It ZP ZX ZY Ab AX AY In IX IY 
+------------------------------------------------------------------------	       
+TAX		2  .  .  .  .  .  .  .	.  .  .
+TAY		2  .  .  .  .  .  .  .	.  .  .
+TSX		2  .  .  .  .  .  .  .	.  .  .
+TXA		2  .  .  .  .  .  .  .	.  .  .
+TXS		2  .  .  .  .  .  .  .	.  .  .
+TYA		2  .  .  .  .  .  .  .	.  .  .
+
+
+Appendix C
+===========
+
+Undocumented 6502 commands in alphabetical order
+------------------------------------------------
+
+Note:	Only the full version of Genesis knows undocumented mnemonics.
+	They can be very helpful. For example "LAX"
+
+AAX	ANDs X with A and stores it to memory
+ARR	ANDs accu with memory and rotates it right
+ASR	ANDs accu with memory and shifts it right
+ATS	ANDs accu with memory and sets carry flag if it's signed
+AX2	ANDs A and X and $21 and store the result to memory
+AY2	ANDs A and Y and $21 and store the result to memory
+
+DCP	DEC and CMP with given adressing mode
+
+HLT	Halts system totally
+
+ISB	INC and SBC with given adressing mode
+
+LAX	Load A and X register with memory
+
+MAX	ANDs memory with X register and stores bits 1-7 to accu
+	Bit 0 of A will be the result of A0 AND X0 AND M0
+
+RLA	ROL and AND with given adressing mode
+
+SLO	ASL and ORA with given adressing mode
+SPM	Store result of (SP and M) to A, X and SP
+SRE	LSR and EOR with given adressing mode
+SX0	Stores X register to memory if it's zero
+
+RRA	ROR and ADC with given adressing mode
+
+XAM	Store result of (X and A) to memory and X
+
+
+Appendix D
+===========
+
+Undocumented 6510 commands in order of values
+----------------------------------------------
+
+Notes:	In the listing below there are some shortcuts used :
+	A = Accumulator
+	, X = Index register X , Y = Index register Y , SP = Stackpointer
+	, M = byte in Memory , -> = is Stored in.
+	The flag settings are, unless other specified,
+	calculated in the same way as the intructions they consist of.
+
+value	mnemonic Adressing mode  effect
+--------------------------------------------
+02	HLT	 -		 Total HALT
+03	SLO	 (Ind,X)	 ASL,ORA
+04	NOP	 Zeropage	 NOP
+07	SLO	 Zeropage	 ASL,ORA
+0B	ATS	 Immediate	 AND #$xx,ASL A with only setting flags
+0C	NOP	 Absolute	 NOP
+0F	SLO	 Absolute	 ASL,ORA
+
+12	HLT	 -		 Total HALT
+13	SLO	 (Ind),Y	 ASL,ORA
+14	NOP	 Zeropage	 NOP
+17	SLO	 Zeropage,X	 ASL,ORA
+1A	NOP	 Implied	 NOP
+1B	SLO	 Absolute,Y	 ASL,ORA
+1C	NOP	 Absolute	 NOP
+1F	SLO	 Absolute,X	 ASL,ORA
+
+22	HLT	 -		 Total HALT
+23	RLA	 (Ind,X)	 ROL,AND
+27	RLA	 Zeropage	 ROL,AND
+2B	ATS	 Immediate	 AND #$xx,ROL A with only setting flags
+2F	RLA	 Absolute	 ROL,AND
+
+32	HLT	 -		 Total HALT
+33	RLA	 (Ind),Y	 ROL,AND
+34	NOP	 Zeropage	 NOP
+37	RLA	 Zeropage,X	 ROL,AND
+3A	NOP	 Implied	 NOP
+3B	RLA	 Absolute,Y	 ROL,AND
+3C	NOP	 Absolute	 NOP
+3F	RLA	 Absolute,X	 ROL,AND
+
+42	HLT	 -		 Total HALT
+43	SRE	 (Ind,X)	 LSR,EOR
+44	NOP	 Zeropage	 NOP
+47	SRE	 Zeropage	 LSR,EOR
+4B	ASR	 Immediate	 AND #$xx,LSR A
+4F	SRE	 Absolute	 LSR,EOR
+
+52	HLT	 -		 Total HALT
+53	SRE	 (Ind,Y)	 LSR,EOR
+54	NOP	 Zeropage	 NOP
+57	SRE	 Zeropage,X	 LSR,EOR
+5A	NOP	 Implied	 NOP
+5B	SRE	 Absolute,Y	 LSR,EOR
+5C	NOP	 Absolute	 NOP
+5F	SRE	 Absolute,X	 LSR,EOR
+
+62	HLT	 -		 Total HALT
+63	RRA	 (Ind,X)	 ROR,ADC
+64	NOP	 Zeropage	 NOP
+67	RRA	 Zeropage	 ROR,ADC
+6B	ARR	 Immediate	 AND #$xx,ROR A
+6F	RRA	 Absolute	 ROR,ADC
+
+72	HLT	 -		 Total HALT
+73	RRA	 (Ind),Y	 ROR,ADC
+74	NOP	 Zeropage	 NOP
+77	RRA	 Zeropage,X	 ROR,ADC
+7A	NOP	 Implied	 NOP
+7B	RRA	 Absolute,Y	 ROR,ADC
+7C	NOP	 Absolute	 NOP
+7F	RRA	 Absolute,X	 ROR,ADC
+
+80	NOP	 Zeropage	 NOP
+82	NOP	 Zeropage	 NOP
+83	SX0	 (Ind,X)	 0->M if X=0 , No flags set
+87	AAX	 Zeropage	 A and X -> M , No flags set
+8B	MAX	 Immediate	 M and X -> A (bits 7-1)
+				 M0 and X0 and A0 -> A0, No flags set
+8F	AAX	 Absolute	 A and X -> M , No flags set
+
+92	HLT	 -		 Total HALT
+93	AX2	 (Ind),Y	 A and X and $21 -> M , No flags set
+97	AAX	 Zeropage,Y	 A and X -> M , No flags set
+9B	AX2	 Absolute,Y	 A and X and $21 -> M , A and X -> SP, No flags set
+9C	AY2	 Absolute,X	 A and Y and $21 -> M , No flags set
+9E	AY2	 Absolute,Y	 A and X and $21 -> M , No flags set
+9F	AX2	 Absolute,Y	 A and X and $21 -> M , No flags set
+
+A3	LAX	 (Ind,X)	 LDA,LDX
+A7	LAX	 Zeropage	 LDA,LDX
+AB	LAX	 Immediate	 LDA,LDX
+AF	LAX	 Absolute	 LDA,LDX
+
+B2	HLT	 -		 Total HALT
+B3	LAX	 (Ind),Y	 LDA,LDX
+B7	LAX	 Zeropage,Y	 LDA,LDX
+BB	SPM	 Absolute,Y	 SP and M -> A,X,SP
+BF	LAX	 Absolute,Y	 LDA,LDX
+
+C2	NOP	 Zeropage	 NOP
+C3	DCP	 (Ind,X)	 DEC,CMP
+C7	DCP	 Zeropage	 DEC,CMP
+CB	XAM	 Immediate	 (X and A) - M -> X
+CF	DCP	 Absolute	 DEC,CMP
+
+D2	HLT	 -		 Total HALT
+D3	DCP	 (Ind),Y	 DEC,CMP
+D4	NOP	 Zeropage	 NOP
+D7	DCP	 Zeropage,X	 DEC,CMP
+DA	NOP	 Implied	 NOP
+DB	DCP	 Absolute,Y	 DEC,CMP
+DC	NOP	 Absolute	 NOP
+DF	DCP	 Absolute,X	 DEC,CMP
+
+E2	NOP	 Zeropage	 NOP
+E3	ISB	 (Ind,X)	 INC,SBC
+E7	ISB	 Zeropage	 INC,SBC
+EB	SBC	 Immediate	 SBC #$xx
+EF	ISB	 Absolute	 INC,SBC
+
+F2	HLT	 -		 Total HALT
+F3	ISB	 (Ind),Y	 INC,SBC
+F4	NOP	 Zeropage	 NOP
+F7	ISB	 Zeropage,X	 INC,SBC
+FA	NOP	 Implied	 NOP
+FB	ISB	 Absolute,Y	 INC,SBC
+FC	NOP	 Absolute	 NOP
+FF	ISB	 Absolute,X	 INC,SBC
+
+
+Appendix E
+===========
+
+History of Genesis 6510
+------------------------
+
+v1.0	-	First release with include files
+
+v1.1/1.2-	Some internal errors have been removed.
+
+v2.0	-	Undocumented instructions of the 6510 CPU and the
+		EXB directive are now included.
+		The ASC and BYT directive have been extended to do the same.
+		Genesis also allows you to use source codes bigger than
+		64k.
+
+v2.1	-	Bugfixed and faster but quite the same as V2.0
+
+v2.2	-	The ORG directive has been extended. Now you can define
+		and index to the adresses. Very useful.
+
+

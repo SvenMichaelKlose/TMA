@@ -1,0 +1,139 @@
+sys start
+
+        buffera=$6400
+        bufferb=$6000
+        vectora=$02
+        vectorb=$fa
+        startkoorx=$8000
+        startkoory=$8100
+        speedtab=$8200
+        postabx=$8300
+        postaby=$8400
+
+start
+        lda     #$00            ;farben festlegen
+        sta     $d020
+        sta     $d021
+        lda     #$3b            ;screen einschalten
+        sta     $d011
+        lda     #$18
+        sta     $d018
+        lda     #$00
+        sta     $02
+        lda     #$20
+        sta     $03
+
+fillloop
+        ldy     #$00
+        lda     #$aa
+        sta     (02),y
+        ldy     #$01
+        lda     #$55
+        sta     (02),y
+        inc     $02
+        inc     $02
+        bne     fillloop
+        inc     $03
+        lda     $03
+        cmp     #$3f
+        bne     fillloop
+
+;        lda     
+loopa
+        lda     #<buffera       ;vex vorbereiten
+        sta     vectora
+        lda     #>buffera
+        sta     vectora+1
+        lda     #<bufferb
+        sta     vectorb
+        lda     #>bufferb
+        sta     vectorb+1
+
+
+       
+loopb
+        ldy     #$00            ;punkt fuer punkt einlesen
+        lda     (vectora),y
+        ldy     #$27
+        clc
+        adc     (vectora),y
+        ldy     #$28
+        clc
+        adc     (vectora),y
+        ldy     #$29
+        clc
+        adc     (vectora),y
+        ldy     #$50
+        clc
+        adc     (vectora),y           
+        tax                     ;divi5
+        lda     durch5,x
+        ldy     #$28
+        sta     (vectorb),y     ;ablegen in bufferb
+
+
+        inc     vectora         ;vex inkrementieren
+        inc     vectorb
+        bne     loopb
+        inc     vectora+1
+        inc     vectorb+1
+        lda     vectora+1
+        cmp     #$84
+        bne     loopb
+
+
+        ldx     #$00            ;buffer in grap konvertieren
+loopc
+        lda     bufferb,x
+        sta     buffera,x
+        tay
+        lda     farbtab,y
+        sta     $0400,x
+        lda     bufferb+$0100,x
+        sta     buffera+$0100,x
+        tay
+        lda     farbtab,y
+        sta     $0500,x
+        lda     bufferb+$0200,x
+        sta     buffera+$0200,x
+        tay
+        lda     farbtab,y
+        sta     $0600,x
+        lda     bufferb+$0300,x
+        sta     buffera+$0300,x
+        tay
+        lda     farbtab,y
+        sta     $0700,x
+        inx
+        bne     loopc
+        jmp     loopa           ;und nochmal...
+
+org $1000
+farbtab
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+        byt     $00,$06,$66,$64,$44,$4e,$ee,$e3,$33,$37,$77,$71
+        byt     $11,$17,$77,$7a,$aa,$a8,$88,$82,$22,$29,$99,$90
+org $1200
+durch5
+        ext durch5.inc        
+
+        
+
+

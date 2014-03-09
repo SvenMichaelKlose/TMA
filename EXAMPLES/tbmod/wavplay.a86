@@ -1,0 +1,299 @@
+; *************************************
+; *** DW-Mod V1.0 (c) Deepware 1995 ***
+; *************************************
+	org 100h
+
+DW_mod:	mov dx,TXT_standard
+	mov ah,9
+	int 21h
+
+	call GetSB            ;Auf SB prÅfen
+	jnc NoBye
+	mov ax,4c01h
+	int 21h
+
+NoBye:	mov ax,cs
+	mov w[mod_irqseg],ax
+
+	mov dx,SourceName
+	mov ax,3d00h      ;Datei îffnen
+	int 21h
+	jnc Open4       ;Kein Fehler,weiter
+
+	mov dx,ERR_SourceNotOpen
+	mov ah,9
+	int 21h
+	mov ax,4c001h
+	int 21h
+
+Open4:	mov bx,ax             ;Handle Åbergeben
+	mov w[SourceHandle],ax
+        
+	call ReadSourceBlock
+	or ax,ax
+	jz GoodBye            ;Dateiende
+
+	call SpeakerOn
+	call SwitchIRQ        ;Interrupt verbiegen
+	call SetIRQ
+	mov al,40h            ;Samplerate einstellen
+	call WriteSB          ;(22kHz)
+	mov al,high(65536-(256000000/44100))
+	call WriteSB
+	mov al,0d1h           ;Lautsprecher einschalten
+	call WriteSB
+
+	mov al,80h
+	sub b[PlayAdr+1],al
+	mov al,48h            ;Blockgrîsse einstellen
+	call WriteSB
+	mov ax,w[InputSIze]
+	dec ax                ;-1
+	call WriteSB
+	mov al,ah
+	call WriteSB
+SBinitINT:
+	int 15
+
+wait1:	mov al,b[IRQflag]
+	or al,al
+	jz wait1
+	call Readsourceblock
+	or ax,ax
+	jz GoodBye            ;Dateiende
+	mov ah,1
+	int 16h
+	jnz goodbye
+	jmp wait1
+
+GoodBye:xor ax,ax
+	int 16h
+	call SpeakerOff
+	call SwitchIRQ        ;Interrupt wieder herstellen
+	call LockIRQ
+	mov bx,w[SourceHandle]
+	mov ah,3eh            ;Datei schliessen
+	int 21h
+	mov ax,4c00h
+	int 21h
+
+AllowIRQ:
+	xor al,al
+	out 021h,al
+	out 0a1h,al
+	ret
+
+; ********************
+; *** Block laden ****
+; ********************
+ReadSourceBlock:
+	mov bx,w[Sourcehandle]
+	mov cx,08000h          ;Soviel wie mîglich laden
+	mov ax,w[PlayAdr]
+	shr ax,4
+	mov dx,cs
+	mov dx,4000h
+	add ax,dx
+	;add ax,1000h
+	mov es,ax
+
+	xor dx,dx
+	push ds            ;Zielsegment Åbergeben
+	mov ds,ax
+	mov ah,3fh            ;Block einlesen
+	int 21h               ;Daten laden
+	pop ds
+	mov w[InputSize],ax
+	push ax
+	mov al,b[PlayAdr+1]
+	add al,80h
+	mov b[PlayAdr+1],al
+	xor al,al
+	mov b[IRQflag],al     ;Flag lîschen
+	pop ax
+	ret
+
+; ******************************
+; *** Interruptroutine IRQ 7 ***
+; ******************************
+SBirq:
+	cli
+	push ax,bx,dx,es,ds
+	mov ds,cs
+	inc b[IRQflag]        ;Flag fÅr Laden eines Blocks
+	call SpeakBlock       ;geladenen Block abspielen lassen
+	mov al,20h            ;EOI an Interruptcontroller
+	out 20h,al
+	cmp b[SBIRQNR],7      ;IRQ 7 ?
+	jne NoIRQ7
+	out 0a0h,al
+NoIRQ7: pop ds,es,dx,bx,ax
+	sti
+	iret
+
+; *********************
+; *** Block starten ***
+; *********************
+SpeakBlock:
+	mov bx,w[PlayAdr]
+	shr bx,4
+	mov ax,cs
+	mov ax,4000h
+	add ax,bx
+	mov es,ax
+	xor bx,bx
+
+	; ES:BX=Quell adresse
+	mov al,14h
+	out 8,al      ;DMA 1 deaktivieren
+	mov al,00001000b ;demand,adress inc.,write,ch.1
+	or al,b[SBdmaNr]
+	out 0bh,al    ;DMA-Modus fÅr Kanal 1 einstellen
+	mov ax,es     ;Adresse berechnen
+	shl ax,4
+	add ax,bx
+	jc SetDMA2
+	mov bx,es
+	shr bh,4
+	jmp SetDMAadr
+SetDMA2:mov bx,es
+	shr bh,4
+	adc bh,0
+SetDMAadr:
+	out 0ch,al    ;reset Flip-Flop
+	out 2,al      ;Adresse
+	mov al,ah
+	out 2,al
+	mov al,bh     ;Page
+	out 83h,al
+	out 0ch,al    ;reset Flip-Flop
+	mov ax,w[Inputsize]
+	dec ax
+	out 3,al      ;LÑnge des Blocks-1
+	mov al,ah
+	out 3,al
+	mov al,1
+	out 0ah,al     ;Kanal 1 freigeben
+	mov al,10h
+	out 8,al      ;DMA 1 aktivieren
+
+	mov dx,b[SBport]
+	or dl,0eh
+	in al,dx
+	mov al,90h            ;Highspeed-Ausgabe starten (Autoinit mode)
+	call WriteSB
+	ret
+
+mod_irqadr:dw SBirq
+mod_irqseg:dw 0
+IRQflag:db 0
+
+        include "c:\a86\inc\getsblas.inc"
+        include "c:\a86\inc\retrace.inc"
+
+InputSize:dw 0
+Sourcehandle:dw 0
+PlayAdr:dw 0
+
+TXT_standard:
+db"Deepware Waveplay Version 0.1 - (c) 1995 by Deepware, Bielefeld",10,13
+TXT_line:
+db"===============================================================",10,13,"$"
+ERR_sourcenotopen:
+db"Can't find your desired source file. Is it the right path ?",10,13,"$"
+
+SourceName:db"\music\wav\serial.wav",0
+
+; ********************************
+; *** Lautsprecher einschalten ***
+; ********************************
+SpeakerOn:
+        mov dx,w[sbport]        ;Filter abschalten
+        or dl,4
+        mov al,0eh
+        out dx,al
+        inc dl
+        in al,dx
+        or al,32
+        out dx,al
+        mov al,0d1h             ;Lautsprecher einschalten
+        call WriteSB
+        call Retrace
+        call Retrace
+        ret
+
+; *******************************
+; *** Lautsprecher abschalten ***
+; *******************************
+SpeakerOff:
+        mov al,0d0h
+        call WriteSB
+        ret
+
+; ***************************
+; *** IRQ chip einstellen ***
+; ***************************
+SetIRQ: mov ah,0feh
+        mov cl,b[cs:SBirqNr]
+        cmp cl,7
+        jbe SetIRQ2
+        sub cl,8
+        shl ah,cl
+        in al,0a1h
+        and al,ah
+        out 0a1h,al
+        ret
+
+SetIRQ2:in al,21h
+        shl ah,cl
+        and al,ah
+        out 21h,al
+        ret
+
+; **********************
+; *** IRQ abschalten ***
+; **********************
+LockIRQ:mov ah,1
+        mov cl,b[cs:SBirqNr]
+        cmp cl,7
+        jbe LockIRQ2
+        sub cl,8
+        shl ah,cl
+        in al,0a1h
+        or al,ah
+        out 0a1h,al
+        ret
+LockIRQ2:
+        in al,21h               ;IRQ abschalten
+        shl ah,cl
+        or al,ah
+        out 21h,al
+        ret
+
+; *************************
+; *** IRQ Vektor setzen ***
+; *************************
+SwitchIRQ:
+        pusha
+        push ds,es
+        mov al,b[cs:SBirqNr]    ;Alten IRQ lesen
+        add al,8
+        mov b[cs:SBinitINT+1],al
+        mov ah,35h
+        push ax
+        int 21h
+        mov ds,es
+        mov dx,bx
+        push ds,w[cs:wav_irqseg]
+        pop ds,w[cs:wav_irqseg]
+        push dx,w[cs:wav_irqadr]
+        pop dx,w[cs:wav_irqadr]
+        pop ax
+        mov ah,25h
+        int 21h
+        pop es,ds
+        popa
+        ret
+
+wav_irqseg:dw 0
+wav_irqadr:dw 0

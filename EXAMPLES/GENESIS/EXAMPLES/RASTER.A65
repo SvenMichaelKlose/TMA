@@ -1,0 +1,36 @@
+; *** Rasterzeileninterrupt auf dem C64er von Darius Kubarth
+; *** fr den Genesis 65XX Crossassmbler
+; kubi@bertelsmann.de
+
+        sys init
+
+        ext vic.ext
+
+init    lda #$00       ;farben setzen
+
+        sta bordercolor
+        sta backcolor0
+        sei
+        lda #<start
+        sta $0314
+        lda #>start
+        sta $0315
+        lda #01
+        sta intmask
+        lda #$7f
+        sta $dc0d
+        lda #$1b
+        sta rastermsb
+        lda #$80
+        sta raster
+        cli
+        rts
+start   inc rasterflag
+        inc bordercolor
+        inc backcolor0
+        lda raster
+loop    cmp raster
+        beq loop
+        dec bordercolor
+        dec backcolor0
+        jmp $ea31
